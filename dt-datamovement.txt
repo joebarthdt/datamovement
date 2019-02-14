@@ -1,0 +1,8 @@
+app reg 
+dt-datamovement
+app id
+a7492fa2-9627-419c-b069-1c67d7f08016
+object id
+41041a84-656c-4c05-895a-eeef9a0a9f64
+key
+B0OhscvBbGI1DN0pNBY59E86p9GRdT3QkSJoHMuW8fA=
