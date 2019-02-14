@@ -1,0 +1,92 @@
+{
+	"name": "copySink",
+	"properties": {
+		"activities": [
+			{
+				"name": "SQLtoADLS",
+				"type": "Copy",
+				"dependsOn": [
+					{
+						"activity": "uspGetSink",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"typeProperties": {
+					"source": {
+						"type": "SqlSource",
+						"sqlReaderQuery": {
+							"value": "@activity('uspGetSink').output.firstRow.sourceValue",
+							"type": "Expression"
+						}
+					},
+					"sink": {
+						"type": "AzureBlobFSSink"
+					},
+					"enableStaging": false,
+					"dataIntegrationUnits": 0
+				},
+				"inputs": [
+					{
+						"referenceName": "AzureSqlTableDB",
+						"type": "DatasetReference"
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "AzureDataLakeStorageGen2",
+						"type": "DatasetReference"
+					}
+				]
+			},
+			{
+				"name": "uspGetSink",
+				"type": "Lookup",
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"typeProperties": {
+					"source": {
+						"type": "SqlSource",
+						"sqlReaderStoredProcedureName": "[adf].[uspGetSink]",
+						"storedProcedureParameters": {
+							"sinkName": {
+								"type": "String",
+								"value": {
+									"value": "@pipeline().parameters.sinkName",
+									"type": "Expression"
+								}
+							}
+						}
+					},
+					"dataset": {
+						"referenceName": "AzureSqlTableDB",
+						"type": "DatasetReference"
+					}
+				}
+			}
+		],
+		"parameters": {
+			"sinkName": {
+				"type": "String",
+				"defaultValue": "SalesLT_Address"
+			}
+		},
+		"folder": {
+			"name": "dynamic"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}

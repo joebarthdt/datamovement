@@ -1,0 +1,11 @@
+{
+	"name": "AzureSqlDatabaseDB",
+	"type": "Microsoft.DataFactory/factories/linkedservices",
+	"properties": {
+		"type": "AzureSqlDatabase",
+		"typeProperties": {
+			"connectionString": "integrated security=False;encrypt=True;connection timeout=30;data source=dtdatamovment.database.windows.net;initial catalog=DTFramewok;user id=adminlogin",
+			"encryptedCredential": "ew0KICAiVmVyc2lvbiI6ICIyMDE3LTExLTMwIiwNCiAgIlByb3RlY3Rpb25Nb2RlIjogIktleSIsDQogICJTZWNyZXRDb250ZW50VHlwZSI6ICJQbGFpbnRleHQiLA0KICAiQ3JlZGVudGlhbElkIjogIkFERlYyLURULURBVEFNT1ZNRU5UXzZhNWI5ODhjLTdkY2UtNGJkNy1iNDk3LTk4YWI4NTZjZTBkYiINCn0="
+		}
+	}
+}

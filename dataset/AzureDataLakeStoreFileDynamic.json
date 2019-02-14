@@ -1,0 +1,24 @@
+{
+	"name": "AzureDataLakeStoreFileDynamic",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "AzureDataLakeStoreDynamic",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "dynamic"
+		},
+		"type": "AzureDataLakeStoreFile",
+		"typeProperties": {
+			"format": {
+				"type": "JsonFormat",
+				"filePattern": "setOfObjects"
+			},
+			"folderPath": {
+				"value": "@activity('uspGetSink').output.firstRow.sinkValue",
+				"type": "Expression"
+			}
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

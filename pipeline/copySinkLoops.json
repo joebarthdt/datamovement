@@ -1,0 +1,85 @@
+{
+	"name": "copySinkLoops",
+	"properties": {
+		"activities": [
+			{
+				"name": "uspSinkLoop",
+				"type": "Lookup",
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"typeProperties": {
+					"source": {
+						"type": "SqlSource",
+						"sqlReaderStoredProcedureName": "[adf].[uspSinkLoop]",
+						"storedProcedureParameters": {
+							"sinkgroup": {
+								"type": "String",
+								"value": {
+									"value": "@pipeline().parameters.sinkGroup",
+									"type": "Expression"
+								}
+							}
+						}
+					},
+					"dataset": {
+						"referenceName": "AzureSqlTableDB",
+						"type": "DatasetReference"
+					},
+					"firstRowOnly": false
+				}
+			},
+			{
+				"name": "ForEachCopySink",
+				"type": "ForEach",
+				"dependsOn": [
+					{
+						"activity": "uspSinkLoop",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"typeProperties": {
+					"items": {
+						"value": "@activity('uspSinkLoop').output.value",
+						"type": "Expression"
+					},
+					"activities": [
+						{
+							"name": "Execute copySink",
+							"type": "ExecutePipeline",
+							"typeProperties": {
+								"pipeline": {
+									"referenceName": "copySink",
+									"type": "PipelineReference"
+								},
+								"waitOnCompletion": true,
+								"parameters": {
+									"sinkName": {
+										"value": "@item().sinkName",
+										"type": "Expression"
+									}
+								}
+							}
+						}
+					]
+				}
+			}
+		],
+		"parameters": {
+			"sinkGroup": {
+				"type": "String",
+				"defaultValue": "dim_group"
+			}
+		},
+		"folder": {
+			"name": "dynamic"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}

@@ -1,0 +1,17 @@
+{
+	"name": "AzureSqlTableDB",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "AzureSqlDatabaseDB",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "dynamic"
+		},
+		"type": "AzureSqlTable",
+		"typeProperties": {
+			"tableName": ""
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

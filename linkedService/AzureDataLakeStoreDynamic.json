@@ -1,0 +1,17 @@
+{
+	"name": "AzureDataLakeStoreDynamic",
+	"type": "Microsoft.DataFactory/factories/linkedservices",
+	"properties": {
+		"type": "AzureDataLakeStore",
+		"typeProperties": {
+			"dataLakeStoreUri": "https://passdevdatalake.azuredatalakestore.net/webhdfs/v1",
+			"tenant": "4bc7b452-73c9-4301-ace5-fff7e1d3f97f",
+			"subscriptionId": "47eece0b-9fab-4016-befa-6cb504cf566f",
+			"resourceGroupName": "PASSsummit2018"
+		},
+		"connectVia": {
+			"referenceName": "integrationRuntimeEUS",
+			"type": "IntegrationRuntimeReference"
+		}
+	}
+}
