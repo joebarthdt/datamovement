@@ -8,6 +8,12 @@
 		"AzureSqlDatabaseDB_connectionString": {
 			"value": ""
 		},
+		"joescomputerLS_connectionString": {
+			"value": ""
+		},
+		"joescomputerLS_password": {
+			"value": ""
+		},
 		"AzureDataLakeStorageGen2_properties_typeProperties_folderPath": {
 			"value": "@activity('uspGetSink').output.firstRow.sinkValue"
 		},
@@ -31,6 +37,9 @@
 		},
 		"AzureKeyVault_properties_typeProperties_baseUrl": {
 			"value": "https://pass-dev-kvd2.vault.azure.net/"
+		},
+		"joescomputerLS_properties_typeProperties_userName": {
+			"value": "COEXIST\\jbarth"
 		}
 	}
 }

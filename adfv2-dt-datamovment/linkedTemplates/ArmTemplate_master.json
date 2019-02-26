@@ -11,6 +11,14 @@
 			"type": "secureString",
 			"metadata": "Secure string for 'connectionString' of 'AzureSqlDatabaseDB'"
 		},
+		"joescomputerLS_connectionString": {
+			"type": "secureString",
+			"metadata": "Secure string for 'connectionString' of 'joescomputerLS'"
+		},
+		"joescomputerLS_password": {
+			"type": "secureString",
+			"metadata": "Secure string for 'password' of 'joescomputerLS'"
+		},
 		"AzureDataLakeStorageGen2_properties_typeProperties_folderPath": {
 			"type": "string",
 			"defaultValue": "@activity('uspGetSink').output.firstRow.sinkValue"
@@ -43,6 +51,10 @@
 			"type": "string",
 			"defaultValue": "https://pass-dev-kvd2.vault.azure.net/"
 		},
+		"joescomputerLS_properties_typeProperties_userName": {
+			"type": "string",
+			"defaultValue": "COEXIST\\jbarth"
+		},
 		"containerUri": {
 			"type": "string",
 			"metadata": "URI to storage account containing linked ARM templates"
@@ -73,6 +85,12 @@
 					"AzureSqlDatabaseDB_connectionString": {
 						"value": "[parameters('AzureSqlDatabaseDB_connectionString')]"
 					},
+					"joescomputerLS_connectionString": {
+						"value": "[parameters('joescomputerLS_connectionString')]"
+					},
+					"joescomputerLS_password": {
+						"value": "[parameters('joescomputerLS_password')]"
+					},
 					"AzureDataLakeStorageGen2_properties_typeProperties_url": {
 						"value": "[parameters('AzureDataLakeStorageGen2_properties_typeProperties_url')]"
 					},
@@ -93,6 +111,9 @@
 					},
 					"AzureDataLakeStoreDynamic_properties_typeProperties_resourceGroupName": {
 						"value": "[parameters('AzureDataLakeStoreDynamic_properties_typeProperties_resourceGroupName')]"
+					},
+					"joescomputerLS_properties_typeProperties_userName": {
+						"value": "[parameters('joescomputerLS_properties_typeProperties_userName')]"
 					},
 					"AzureDataLakeStoreFileDynamic_properties_typeProperties_folderPath": {
 						"value": "[parameters('AzureDataLakeStoreFileDynamic_properties_typeProperties_folderPath')]"
