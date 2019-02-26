@@ -1,0 +1,16 @@
+{
+	"name": "joescomputerLS",
+	"type": "Microsoft.DataFactory/factories/linkedservices",
+	"properties": {
+		"type": "SqlServer",
+		"typeProperties": {
+			"connectionString": "integrated security=True;data source=DWHTEST\\DATAWAREHOUSE;initial catalog=EnterpriseReporting",
+			"userName": "COEXIST\\jbarth",
+			"encryptedCredential": "eyJDcmVkZW50aWFsSWQiOiI5YThmNDZjYi02NGE5LTQ3NGYtYjgyMC05Y2FjMjViZWI0ZTIiLCJWZXJzaW9uIjoiMi4wIiwiQ2xhc3NUeXBlIjoiTWljcm9zb2Z0LkRhdGFQcm94eS5Db3JlLkludGVyU2VydmljZURhdGFDb250cmFjdC5DcmVkZW50aWFsU1UwNkNZMTQifQ=="
+		},
+		"connectVia": {
+			"referenceName": "JoesComputer",
+			"type": "IntegrationRuntimeReference"
+		}
+	}
+}
