@@ -1,0 +1,6 @@
+{
+	"name": "JoesComputer",
+	"properties": {
+		"type": "SelfHosted"
+	}
+}
