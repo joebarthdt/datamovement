@@ -1,6 +1,10 @@
 {
 	"name": "DWHTEST_DATAWAREHOUSE",
 	"properties": {
+		"linkedServiceName": {
+			"referenceName": "joescomputerLS",
+			"type": "LinkedServiceReference"
+		},
 		"type": "SqlServerTable"
 	}
 }
