@@ -1,0 +1,36 @@
+{
+	"$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+	"contentVersion": "1.0.0.0",
+	"parameters": {
+		"factoryName": {
+			"value": "adfv2-dt-datamovment"
+		},
+		"AzureSqlDatabaseDB_connectionString": {
+			"value": ""
+		},
+		"AzureDataLakeStorageGen2_properties_typeProperties_folderPath": {
+			"value": "@activity('uspGetSink').output.firstRow.sinkValue"
+		},
+		"AzureDataLakeStoreFileDynamic_properties_typeProperties_folderPath": {
+			"value": "@activity('uspGetSink').output.firstRow.sinkValue"
+		},
+		"AzureDataLakeStorageGen2_properties_typeProperties_url": {
+			"value": "https://dtadlsgen2.dfs.core.windows.net"
+		},
+		"AzureDataLakeStoreDynamic_properties_typeProperties_dataLakeStoreUri": {
+			"value": "https://passdevdatalake.azuredatalakestore.net/webhdfs/v1"
+		},
+		"AzureDataLakeStoreDynamic_properties_typeProperties_tenant": {
+			"value": "4bc7b452-73c9-4301-ace5-fff7e1d3f97f"
+		},
+		"AzureDataLakeStoreDynamic_properties_typeProperties_subscriptionId": {
+			"value": "47eece0b-9fab-4016-befa-6cb504cf566f"
+		},
+		"AzureDataLakeStoreDynamic_properties_typeProperties_resourceGroupName": {
+			"value": "PASSsummit2018"
+		},
+		"AzureKeyVault_properties_typeProperties_baseUrl": {
+			"value": "https://pass-dev-kvd2.vault.azure.net/"
+		}
+	}
+}

@@ -1,0 +1,105 @@
+{
+	"$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+	"contentVersion": "1.0.0.0",
+	"parameters": {
+		"factoryName": {
+			"type": "string",
+			"metadata": "Data Factory Name",
+			"defaultValue": "adfv2-dt-datamovment"
+		},
+		"AzureSqlDatabaseDB_connectionString": {
+			"type": "secureString",
+			"metadata": "Secure string for 'connectionString' of 'AzureSqlDatabaseDB'"
+		},
+		"AzureDataLakeStorageGen2_properties_typeProperties_folderPath": {
+			"type": "string",
+			"defaultValue": "@activity('uspGetSink').output.firstRow.sinkValue"
+		},
+		"AzureDataLakeStoreFileDynamic_properties_typeProperties_folderPath": {
+			"type": "string",
+			"defaultValue": "@activity('uspGetSink').output.firstRow.sinkValue"
+		},
+		"AzureDataLakeStorageGen2_properties_typeProperties_url": {
+			"type": "string",
+			"defaultValue": "https://dtadlsgen2.dfs.core.windows.net"
+		},
+		"AzureDataLakeStoreDynamic_properties_typeProperties_dataLakeStoreUri": {
+			"type": "string",
+			"defaultValue": "https://passdevdatalake.azuredatalakestore.net/webhdfs/v1"
+		},
+		"AzureDataLakeStoreDynamic_properties_typeProperties_tenant": {
+			"type": "string",
+			"defaultValue": "4bc7b452-73c9-4301-ace5-fff7e1d3f97f"
+		},
+		"AzureDataLakeStoreDynamic_properties_typeProperties_subscriptionId": {
+			"type": "string",
+			"defaultValue": "47eece0b-9fab-4016-befa-6cb504cf566f"
+		},
+		"AzureDataLakeStoreDynamic_properties_typeProperties_resourceGroupName": {
+			"type": "string",
+			"defaultValue": "PASSsummit2018"
+		},
+		"AzureKeyVault_properties_typeProperties_baseUrl": {
+			"type": "string",
+			"defaultValue": "https://pass-dev-kvd2.vault.azure.net/"
+		},
+		"containerUri": {
+			"type": "string",
+			"metadata": "URI to storage account containing linked ARM templates"
+		},
+		"containerSasToken": {
+			"type": "string",
+			"metadata": "Sas Token to storage account containing linked ARM templates"
+		}
+	},
+	"variables": {
+		"factoryId": "[concat('Microsoft.DataFactory/factories/', parameters('factoryName'))]"
+	},
+	"resources": [
+		{
+			"name": "ArmTemplate_0",
+			"type": "Microsoft.Resources/deployments",
+			"apiVersion": "2018-02-01",
+			"properties": {
+				"mode": "incremental",
+				"templateLink": {
+					"uri": "[concat(parameters('containerUri'), '/ArmTemplate_0.json', parameters('containerSasToken'))]",
+					"contentVersion": "1.0.0.0"
+				},
+				"parameters": {
+					"factoryName": {
+						"value": "[parameters('factoryName')]"
+					},
+					"AzureSqlDatabaseDB_connectionString": {
+						"value": "[parameters('AzureSqlDatabaseDB_connectionString')]"
+					},
+					"AzureDataLakeStorageGen2_properties_typeProperties_url": {
+						"value": "[parameters('AzureDataLakeStorageGen2_properties_typeProperties_url')]"
+					},
+					"AzureKeyVault_properties_typeProperties_baseUrl": {
+						"value": "[parameters('AzureKeyVault_properties_typeProperties_baseUrl')]"
+					},
+					"AzureDataLakeStorageGen2_properties_typeProperties_folderPath": {
+						"value": "[parameters('AzureDataLakeStorageGen2_properties_typeProperties_folderPath')]"
+					},
+					"AzureDataLakeStoreDynamic_properties_typeProperties_dataLakeStoreUri": {
+						"value": "[parameters('AzureDataLakeStoreDynamic_properties_typeProperties_dataLakeStoreUri')]"
+					},
+					"AzureDataLakeStoreDynamic_properties_typeProperties_tenant": {
+						"value": "[parameters('AzureDataLakeStoreDynamic_properties_typeProperties_tenant')]"
+					},
+					"AzureDataLakeStoreDynamic_properties_typeProperties_subscriptionId": {
+						"value": "[parameters('AzureDataLakeStoreDynamic_properties_typeProperties_subscriptionId')]"
+					},
+					"AzureDataLakeStoreDynamic_properties_typeProperties_resourceGroupName": {
+						"value": "[parameters('AzureDataLakeStoreDynamic_properties_typeProperties_resourceGroupName')]"
+					},
+					"AzureDataLakeStoreFileDynamic_properties_typeProperties_folderPath": {
+						"value": "[parameters('AzureDataLakeStoreFileDynamic_properties_typeProperties_folderPath')]"
+					}
+				}
+			},
+			"dependsOn": []
+		}
+	]
+}
