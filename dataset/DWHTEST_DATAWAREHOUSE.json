@@ -1,0 +1,6 @@
+{
+	"name": "DWHTEST_DATAWAREHOUSE",
+	"properties": {
+		"type": "SqlServerTable"
+	}
+}
