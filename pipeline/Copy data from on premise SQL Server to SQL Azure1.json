@@ -57,7 +57,7 @@
 					"sink": {
 						"type": "SqlSink",
 						"writeBatchSize": 10000,
-						"preCopyScript": "TRUNCATE TABLE  [dbo].[tblProcess]"
+						"preCopyScript": "TRUNCATE TABLE  [dbo].[tblProcessStatusDimension]"
 					},
 					"enableStaging": false,
 					"dataIntegrationUnits": 0
@@ -70,7 +70,7 @@
 				],
 				"outputs": [
 					{
-						"referenceName": "aztblProcess",
+						"referenceName": "tblProcessStatusDimensionDT",
 						"type": "DatasetReference"
 					}
 				]
@@ -93,7 +93,7 @@
 					"sink": {
 						"type": "SqlSink",
 						"writeBatchSize": 10000,
-						"preCopyScript": "TRUNCATE TABLE  [dbo].[tblProcess]"
+						"preCopyScript": "TRUNCATE TABLE  [dbo].[tblProcessTypeDimension]"
 					},
 					"enableStaging": false,
 					"dataIntegrationUnits": 0
@@ -129,7 +129,7 @@
 					"sink": {
 						"type": "SqlSink",
 						"writeBatchSize": 10000,
-						"preCopyScript": "TRUNCATE TABLE  [dbo].[tblProcess]"
+						"preCopyScript": "TRUNCATE TABLE  [dbo].[tblProcessRunHistory]"
 					},
 					"enableStaging": false,
 					"dataIntegrationUnits": 0
