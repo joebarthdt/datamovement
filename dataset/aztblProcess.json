@@ -1,0 +1,13 @@
+{
+	"name": "aztblProcess",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "AzureSqlDatabaseDB",
+			"type": "LinkedServiceReference"
+		},
+		"type": "AzureSqlTable",
+		"typeProperties": {
+			"tableName": "[dbo].[tblProcess]"
+		}
+	}
+}
