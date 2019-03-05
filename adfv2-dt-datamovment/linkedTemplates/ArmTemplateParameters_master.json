@@ -14,6 +14,12 @@
 		"joescomputerLS_password": {
 			"value": ""
 		},
+		"ProcessProd_connectionString": {
+			"value": ""
+		},
+		"ProcessProd_password": {
+			"value": ""
+		},
 		"AzureDataLakeStorageGen2_properties_typeProperties_folderPath": {
 			"value": "@activity('uspGetSink').output.firstRow.sinkValue"
 		},
@@ -39,6 +45,9 @@
 			"value": "https://pass-dev-kvd2.vault.azure.net/"
 		},
 		"joescomputerLS_properties_typeProperties_userName": {
+			"value": "COEXIST\\jbarth"
+		},
+		"ProcessProd_properties_typeProperties_userName": {
 			"value": "COEXIST\\jbarth"
 		}
 	}

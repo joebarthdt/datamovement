@@ -19,6 +19,14 @@
 			"type": "secureString",
 			"metadata": "Secure string for 'password' of 'joescomputerLS'"
 		},
+		"ProcessProd_connectionString": {
+			"type": "secureString",
+			"metadata": "Secure string for 'connectionString' of 'ProcessProd'"
+		},
+		"ProcessProd_password": {
+			"type": "secureString",
+			"metadata": "Secure string for 'password' of 'ProcessProd'"
+		},
 		"AzureDataLakeStorageGen2_properties_typeProperties_folderPath": {
 			"type": "string",
 			"defaultValue": "@activity('uspGetSink').output.firstRow.sinkValue"
@@ -52,6 +60,10 @@
 			"defaultValue": "https://pass-dev-kvd2.vault.azure.net/"
 		},
 		"joescomputerLS_properties_typeProperties_userName": {
+			"type": "string",
+			"defaultValue": "COEXIST\\jbarth"
+		},
+		"ProcessProd_properties_typeProperties_userName": {
 			"type": "string",
 			"defaultValue": "COEXIST\\jbarth"
 		},
@@ -91,6 +103,12 @@
 					"joescomputerLS_password": {
 						"value": "[parameters('joescomputerLS_password')]"
 					},
+					"ProcessProd_connectionString": {
+						"value": "[parameters('ProcessProd_connectionString')]"
+					},
+					"ProcessProd_password": {
+						"value": "[parameters('ProcessProd_password')]"
+					},
 					"AzureDataLakeStorageGen2_properties_typeProperties_url": {
 						"value": "[parameters('AzureDataLakeStorageGen2_properties_typeProperties_url')]"
 					},
@@ -114,6 +132,9 @@
 					},
 					"joescomputerLS_properties_typeProperties_userName": {
 						"value": "[parameters('joescomputerLS_properties_typeProperties_userName')]"
+					},
+					"ProcessProd_properties_typeProperties_userName": {
+						"value": "[parameters('ProcessProd_properties_typeProperties_userName')]"
 					},
 					"AzureDataLakeStoreFileDynamic_properties_typeProperties_folderPath": {
 						"value": "[parameters('AzureDataLakeStoreFileDynamic_properties_typeProperties_folderPath')]"

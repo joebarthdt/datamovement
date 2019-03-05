@@ -19,6 +19,14 @@
 			"type": "secureString",
 			"metadata": "Secure string for 'password' of 'joescomputerLS'"
 		},
+		"ProcessProd_connectionString": {
+			"type": "secureString",
+			"metadata": "Secure string for 'connectionString' of 'ProcessProd'"
+		},
+		"ProcessProd_password": {
+			"type": "secureString",
+			"metadata": "Secure string for 'password' of 'ProcessProd'"
+		},
 		"AzureDataLakeStorageGen2_properties_typeProperties_folderPath": {
 			"type": "string",
 			"defaultValue": "@activity('uspGetSink').output.firstRow.sinkValue"
@@ -52,6 +60,10 @@
 			"defaultValue": "https://pass-dev-kvd2.vault.azure.net/"
 		},
 		"joescomputerLS_properties_typeProperties_userName": {
+			"type": "string",
+			"defaultValue": "COEXIST\\jbarth"
+		},
+		"ProcessProd_properties_typeProperties_userName": {
 			"type": "string",
 			"defaultValue": "COEXIST\\jbarth"
 		}
@@ -344,6 +356,23 @@
 			]
 		},
 		{
+			"name": "[concat(parameters('factoryName'), '/DWHTEST_DATAWAREHOUSE')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "joescomputerLS",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "SqlServerTable",
+				"typeProperties": {}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/joescomputerLS')]"
+			]
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/AzureDataLakeStorageGen2')]",
 			"type": "Microsoft.DataFactory/factories/linkedServices",
 			"apiVersion": "2018-06-01",
@@ -405,47 +434,6 @@
 			"dependsOn": []
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/integrationRuntimeEUS')]",
-			"type": "Microsoft.DataFactory/factories/integrationRuntimes",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"type": "Managed",
-				"typeProperties": {
-					"computeProperties": {
-						"location": "East US"
-					}
-				}
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/JoesComputer')]",
-			"type": "Microsoft.DataFactory/factories/integrationRuntimes",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"type": "SelfHosted",
-				"typeProperties": {}
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/DWHTEST_DATAWAREHOUSE')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "joescomputerLS",
-					"type": "LinkedServiceReference"
-				},
-				"annotations": [],
-				"type": "SqlServerTable",
-				"typeProperties": {}
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/joescomputerLS')]"
-			]
-		},
-		{
 			"name": "[concat(parameters('factoryName'), '/joescomputerLS')]",
 			"type": "Microsoft.DataFactory/factories/linkedServices",
 			"apiVersion": "2018-06-01",
@@ -467,6 +455,165 @@
 			},
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/integrationRuntimes/JoesComputer')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/JoesComputer')]",
+			"type": "Microsoft.DataFactory/factories/integrationRuntimes",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"type": "SelfHosted",
+				"typeProperties": {}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/integrationRuntimeEUS')]",
+			"type": "Microsoft.DataFactory/factories/integrationRuntimes",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"type": "Managed",
+				"typeProperties": {
+					"computeProperties": {
+						"location": "East US"
+					}
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/tblProcess')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"description": "Connect to your data source store.",
+				"linkedServiceName": {
+					"referenceName": "ProcessProd",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "SqlServerTable",
+				"typeProperties": {
+					"tableName": "[concat('[', 'dbo].[tblProcess]')]"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/ProcessProd')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/DataDestination1')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"description": "Connect to your data destination store.",
+				"linkedServiceName": {
+					"referenceName": "AzureSqlDatabaseDB",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"typeProperties": {}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/AzureSqlDatabaseDB')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/Copy data from on premise SQL Server to SQL Azure1')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"description": "Copy data from on premise SQL Server to SQL Azure.\n\nYou can also go to \"Copy Data Tool\" to get the pipeline for more connectors and scenarios.",
+				"activities": [
+					{
+						"name": "SQL_to_SQLAzure",
+						"description": "Copy data from SQL server to SQL Azure",
+						"type": "Copy",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "SqlSource"
+							},
+							"sink": {
+								"type": "SqlSink",
+								"writeBatchSize": 10000
+							},
+							"enableStaging": false,
+							"dataIntegrationUnits": 0
+						},
+						"inputs": [
+							{
+								"referenceName": "tblProcess",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "aztblProcess",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						]
+					}
+				],
+				"annotations": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/datasets/tblProcess')]",
+				"[concat(variables('factoryId'), '/datasets/aztblProcess')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/ProcessProd')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"type": "SqlServer",
+				"typeProperties": {
+					"connectionString": "[parameters('ProcessProd_connectionString')]",
+					"userName": "[parameters('ProcessProd_properties_typeProperties_userName')]",
+					"password": {
+						"type": "SecureString",
+						"value": "[parameters('ProcessProd_password')]"
+					}
+				},
+				"connectVia": {
+					"referenceName": "JoesComputer",
+					"type": "IntegrationRuntimeReference"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/integrationRuntimes/JoesComputer')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/aztblProcess')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "AzureSqlDatabaseDB",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"typeProperties": {
+					"tableName": "[concat('[', 'dbo].[tblProcess]')]"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/AzureSqlDatabaseDB')]"
 			]
 		}
 	]
