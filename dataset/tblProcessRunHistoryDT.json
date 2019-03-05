@@ -1,0 +1,13 @@
+{
+	"name": "tblProcessRunHistoryDT",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "AzureSqlDatabaseDB",
+			"type": "LinkedServiceReference"
+		},
+		"type": "AzureSqlTable",
+		"typeProperties": {
+			"tableName": "[dbo].[tblProcessRunHistory]"
+		}
+	}
+}
