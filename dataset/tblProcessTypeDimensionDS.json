@@ -1,0 +1,13 @@
+{
+	"name": "tblProcessTypeDimensionDS",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "ProcessProd",
+			"type": "LinkedServiceReference"
+		},
+		"type": "SqlServerTable",
+		"typeProperties": {
+			"tableName": "[dbo].[tblProcessTypeDimension]"
+		}
+	}
+}
