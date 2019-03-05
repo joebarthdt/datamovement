@@ -6,6 +6,9 @@
 			"referenceName": "ProcessProd",
 			"type": "LinkedServiceReference"
 		},
+		"folder": {
+			"name": "process"
+		},
 		"type": "SqlServerTable",
 		"typeProperties": {
 			"tableName": "[dbo].[tblProcess]"
