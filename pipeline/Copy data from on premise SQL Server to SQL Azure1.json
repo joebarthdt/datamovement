@@ -33,7 +33,7 @@
 				],
 				"outputs": [
 					{
-						"referenceName": "DataDestination1",
+						"referenceName": "aztblProcess",
 						"type": "DatasetReference"
 					}
 				]
