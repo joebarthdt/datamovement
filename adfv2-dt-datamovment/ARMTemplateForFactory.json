@@ -491,6 +491,9 @@
 					"referenceName": "ProcessProd",
 					"type": "LinkedServiceReference"
 				},
+				"folder": {
+					"name": "process"
+				},
 				"annotations": [],
 				"type": "SqlServerTable",
 				"typeProperties": {
@@ -638,6 +641,9 @@
 				"linkedServiceName": {
 					"referenceName": "AzureSqlDatabaseDB",
 					"type": "LinkedServiceReference"
+				},
+				"folder": {
+					"name": "process"
 				},
 				"annotations": [],
 				"type": "AzureSqlTable",
