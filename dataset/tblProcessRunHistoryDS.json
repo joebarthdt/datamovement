@@ -1,0 +1,13 @@
+{
+	"name": "tblProcessRunHistoryDS",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "ProcessProd",
+			"type": "LinkedServiceReference"
+		},
+		"type": "SqlServerTable",
+		"typeProperties": {
+			"tableName": "[dbo].[tblProcessRunHistory]"
+		}
+	}
+}

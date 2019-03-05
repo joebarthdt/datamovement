@@ -136,7 +136,7 @@
 				},
 				"inputs": [
 					{
-						"referenceName": "tblProcess",
+						"referenceName": "tblProcessRunHistoryDS",
 						"type": "DatasetReference"
 					}
 				],
