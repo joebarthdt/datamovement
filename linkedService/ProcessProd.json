@@ -1,0 +1,16 @@
+{
+	"name": "ProcessProd",
+	"type": "Microsoft.DataFactory/factories/linkedservices",
+	"properties": {
+		"type": "SqlServer",
+		"typeProperties": {
+			"connectionString": "integrated security=True;data source=SQLPRODPC\\PROCESSCONTROL;initial catalog=ProcessControl",
+			"userName": "COEXIST\\jbarth",
+			"encryptedCredential": "eyJDcmVkZW50aWFsSWQiOiIwNTI3MTM1My1iZTc2LTQ5YzMtOWFiNi00ZGVhOTI4YzMzMGUiLCJWZXJzaW9uIjoiMi4wIiwiQ2xhc3NUeXBlIjoiTWljcm9zb2Z0LkRhdGFQcm94eS5Db3JlLkludGVyU2VydmljZURhdGFDb250cmFjdC5DcmVkZW50aWFsU1UwNkNZMTQifQ=="
+		},
+		"connectVia": {
+			"referenceName": "JoesComputer",
+			"type": "IntegrationRuntimeReference"
+		}
+	}
+}
