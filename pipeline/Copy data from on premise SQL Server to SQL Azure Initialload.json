@@ -124,7 +124,8 @@
 				},
 				"typeProperties": {
 					"source": {
-						"type": "SqlSource"
+						"type": "SqlSource",
+						"sqlReaderQuery": "\nSELECT * FROM [dbo].[tblProcessRunHistory] a WITH (NOLOCK)\nWHERE a.RowLoadTimeStamp >= DATEADD(DAY,-1,GETDATE())"
 					},
 					"sink": {
 						"type": "SqlSink",
