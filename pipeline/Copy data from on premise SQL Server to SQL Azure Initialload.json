@@ -21,7 +21,7 @@
 					"sink": {
 						"type": "SqlSink",
 						"writeBatchSize": 10000,
-						"preCopyScript": "TRUNCATE TABLE  [dbo].[tblProcess]"
+						"preCopyScript": "TRUNCATE TABLE  [stg].[tblProcess]"
 					},
 					"enableStaging": false,
 					"dataIntegrationUnits": 0
@@ -57,7 +57,7 @@
 					"sink": {
 						"type": "SqlSink",
 						"writeBatchSize": 10000,
-						"preCopyScript": "TRUNCATE TABLE  [dbo].[tblProcessStatusDimension]"
+						"preCopyScript": "TRUNCATE TABLE  [stg].[tblProcessStatusDimension]"
 					},
 					"enableStaging": false,
 					"dataIntegrationUnits": 0
@@ -93,7 +93,7 @@
 					"sink": {
 						"type": "SqlSink",
 						"writeBatchSize": 10000,
-						"preCopyScript": "TRUNCATE TABLE  [dbo].[tblProcessTypeDimension]"
+						"preCopyScript": "TRUNCATE TABLE  [stg].[tblProcessTypeDimension]"
 					},
 					"enableStaging": false,
 					"dataIntegrationUnits": 0
@@ -129,7 +129,7 @@
 					"sink": {
 						"type": "SqlSink",
 						"writeBatchSize": 10000,
-						"preCopyScript": "TRUNCATE TABLE  [dbo].[tblProcessRunHistory]"
+						"preCopyScript": "TRUNCATE TABLE  [stg].[tblProcessRunHistory]"
 					},
 					"enableStaging": false,
 					"dataIntegrationUnits": 0

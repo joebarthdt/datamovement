@@ -7,7 +7,7 @@
 		},
 		"type": "AzureSqlTable",
 		"typeProperties": {
-			"tableName": "[dbo].[tblProcessRunHistory]"
+			"tableName": "[stg].[tblProcessRunHistory]"
 		}
 	}
 }
