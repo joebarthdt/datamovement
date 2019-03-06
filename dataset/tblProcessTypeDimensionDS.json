@@ -7,7 +7,7 @@
 		},
 		"type": "SqlServerTable",
 		"typeProperties": {
-			"tableName": "[stg].[tblProcessTypeDimension]"
+			"tableName": "[dbo].[tblProcessTypeDimension]"
 		}
 	}
 }
