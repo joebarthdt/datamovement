@@ -11,7 +11,7 @@
 		},
 		"type": "SqlServerTable",
 		"typeProperties": {
-			"tableName": "[dbo].[tblProcess]"
+			"tableName": "[stg].[tblProcess]"
 		}
 	}
 }
