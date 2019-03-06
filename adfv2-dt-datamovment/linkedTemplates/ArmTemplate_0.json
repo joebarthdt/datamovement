@@ -291,7 +291,7 @@
 				"annotations": [],
 				"type": "AzureSqlTable",
 				"typeProperties": {
-					"tableName": "[concat('[', 'dbo].[tblProcess]')]"
+					"tableName": "[concat('[', 'stg].[tblProcess]')]"
 				}
 			},
 			"dependsOn": [
@@ -310,7 +310,7 @@
 				"annotations": [],
 				"type": "AzureSqlTable",
 				"typeProperties": {
-					"tableName": "[concat('[', 'dbo].[tblProcessStatusDimension]')]"
+					"tableName": "[concat('[', 'stg].[tblProcessStatusDimension]')]"
 				}
 			},
 			"dependsOn": [
@@ -329,7 +329,7 @@
 				"annotations": [],
 				"type": "AzureSqlTable",
 				"typeProperties": {
-					"tableName": "[concat('[', 'dbo].[tblProcessTypeDimension]')]"
+					"tableName": "[concat('[', 'stg].[tblProcessTypeDimension]')]"
 				}
 			},
 			"dependsOn": [
@@ -348,7 +348,7 @@
 				"annotations": [],
 				"type": "AzureSqlTable",
 				"typeProperties": {
-					"tableName": "[concat('[', 'dbo].[tblProcessRunHistory]')]"
+					"tableName": "[concat('[', 'stg].[tblProcessRunHistory]')]"
 				}
 			},
 			"dependsOn": [

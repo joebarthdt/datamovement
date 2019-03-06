@@ -523,7 +523,7 @@
 			]
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/Copy data from on premise SQL Server to SQL Azure1')]",
+			"name": "[concat(parameters('factoryName'), '/Copy data from on premise SQL Server to SQL Azure Initialload')]",
 			"type": "Microsoft.DataFactory/factories/pipelines",
 			"apiVersion": "2018-06-01",
 			"properties": {
@@ -549,7 +549,7 @@
 							"sink": {
 								"type": "SqlSink",
 								"writeBatchSize": 10000,
-								"preCopyScript": "TRUNCATE TABLE  [dbo].[tblProcess]"
+								"preCopyScript": "TRUNCATE TABLE  [stg].[tblProcess]"
 							},
 							"enableStaging": false,
 							"dataIntegrationUnits": 0
@@ -589,7 +589,7 @@
 							"sink": {
 								"type": "SqlSink",
 								"writeBatchSize": 10000,
-								"preCopyScript": "TRUNCATE TABLE  [dbo].[tblProcessStatusDimension]"
+								"preCopyScript": "TRUNCATE TABLE  [stg].[tblProcessStatusDimension]"
 							},
 							"enableStaging": false,
 							"dataIntegrationUnits": 0
@@ -629,7 +629,7 @@
 							"sink": {
 								"type": "SqlSink",
 								"writeBatchSize": 10000,
-								"preCopyScript": "TRUNCATE TABLE  [dbo].[tblProcessTypeDimension]"
+								"preCopyScript": "TRUNCATE TABLE  [stg].[tblProcessTypeDimension]"
 							},
 							"enableStaging": false,
 							"dataIntegrationUnits": 0
@@ -669,7 +669,7 @@
 							"sink": {
 								"type": "SqlSink",
 								"writeBatchSize": 10000,
-								"preCopyScript": "TRUNCATE TABLE  [dbo].[tblProcessRunHistory]"
+								"preCopyScript": "TRUNCATE TABLE  [stg].[tblProcessRunHistory]"
 							},
 							"enableStaging": false,
 							"dataIntegrationUnits": 0
@@ -742,7 +742,7 @@
 				"annotations": [],
 				"type": "AzureSqlTable",
 				"typeProperties": {
-					"tableName": "[concat('[', 'dbo].[tblProcess]')]"
+					"tableName": "[concat('[', 'stg].[tblProcess]')]"
 				}
 			},
 			"dependsOn": [
@@ -818,7 +818,7 @@
 				"annotations": [],
 				"type": "AzureSqlTable",
 				"typeProperties": {
-					"tableName": "[concat('[', 'dbo].[tblProcessStatusDimension]')]"
+					"tableName": "[concat('[', 'stg].[tblProcessStatusDimension]')]"
 				}
 			},
 			"dependsOn": [
@@ -837,7 +837,7 @@
 				"annotations": [],
 				"type": "AzureSqlTable",
 				"typeProperties": {
-					"tableName": "[concat('[', 'dbo].[tblProcessTypeDimension]')]"
+					"tableName": "[concat('[', 'stg].[tblProcessTypeDimension]')]"
 				}
 			},
 			"dependsOn": [
@@ -856,7 +856,7 @@
 				"annotations": [],
 				"type": "AzureSqlTable",
 				"typeProperties": {
-					"tableName": "[concat('[', 'dbo].[tblProcessRunHistory]')]"
+					"tableName": "[concat('[', 'stg].[tblProcessRunHistory]')]"
 				}
 			},
 			"dependsOn": [
