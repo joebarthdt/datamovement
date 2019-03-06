@@ -689,6 +689,60 @@
 								"parameters": {}
 							}
 						]
+					},
+					{
+						"name": "mergetblProcessRunHistory",
+						"type": "SqlServerStoredProcedure",
+						"dependsOn": [
+							{
+								"activity": "tblProcessRunHistory",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"storedProcedureName": "[concat('[', 'dbo].[mergetblProcessRunHistory]')]"
+						},
+						"linkedServiceName": {
+							"referenceName": "AzureSqlDatabaseDB",
+							"type": "LinkedServiceReference"
+						}
+					},
+					{
+						"name": "scd2DimProcess",
+						"type": "SqlServerStoredProcedure",
+						"dependsOn": [
+							{
+								"activity": "tblProcess sqltoazure",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"storedProcedureName": "[concat('[', 'dbo].[scd2DimProcess]')]"
+						},
+						"linkedServiceName": {
+							"referenceName": "AzureSqlDatabaseDB",
+							"type": "LinkedServiceReference"
+						}
 					}
 				],
 				"annotations": []
@@ -701,7 +755,8 @@
 				"[concat(variables('factoryId'), '/datasets/tblProcessTypeDimensionDS')]",
 				"[concat(variables('factoryId'), '/datasets/tblProcessTypeDimensionDT')]",
 				"[concat(variables('factoryId'), '/datasets/tblProcessRunHistoryDS')]",
-				"[concat(variables('factoryId'), '/datasets/tblProcessRunHistoryDT')]"
+				"[concat(variables('factoryId'), '/datasets/tblProcessRunHistoryDT')]",
+				"[concat(variables('factoryId'), '/linkedServices/AzureSqlDatabaseDB')]"
 			]
 		},
 		{
