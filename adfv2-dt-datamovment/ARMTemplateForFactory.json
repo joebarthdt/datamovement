@@ -664,7 +664,8 @@
 						"userProperties": [],
 						"typeProperties": {
 							"source": {
-								"type": "SqlSource"
+								"type": "SqlSource",
+								"sqlReaderQuery": "SELECT * FROM [dbo].[tblProcessRunHistory] a WITH (NOLOCK)\nWHERE a.RowLoadTimeStamp >= DATEADD(DAY,-1,GETDATE())"
 							},
 							"sink": {
 								"type": "SqlSink",
@@ -758,6 +759,9 @@
 					"referenceName": "ProcessProd",
 					"type": "LinkedServiceReference"
 				},
+				"folder": {
+					"name": "process"
+				},
 				"annotations": [],
 				"type": "SqlServerTable",
 				"typeProperties": {
@@ -776,6 +780,9 @@
 				"linkedServiceName": {
 					"referenceName": "ProcessProd",
 					"type": "LinkedServiceReference"
+				},
+				"folder": {
+					"name": "process"
 				},
 				"annotations": [],
 				"type": "SqlServerTable",
@@ -796,6 +803,9 @@
 					"referenceName": "ProcessProd",
 					"type": "LinkedServiceReference"
 				},
+				"folder": {
+					"name": "process"
+				},
 				"annotations": [],
 				"type": "SqlServerTable",
 				"typeProperties": {
@@ -814,6 +824,9 @@
 				"linkedServiceName": {
 					"referenceName": "AzureSqlDatabaseDB",
 					"type": "LinkedServiceReference"
+				},
+				"folder": {
+					"name": "process"
 				},
 				"annotations": [],
 				"type": "AzureSqlTable",
@@ -834,6 +847,9 @@
 					"referenceName": "AzureSqlDatabaseDB",
 					"type": "LinkedServiceReference"
 				},
+				"folder": {
+					"name": "process"
+				},
 				"annotations": [],
 				"type": "AzureSqlTable",
 				"typeProperties": {
@@ -852,6 +868,9 @@
 				"linkedServiceName": {
 					"referenceName": "AzureSqlDatabaseDB",
 					"type": "LinkedServiceReference"
+				},
+				"folder": {
+					"name": "process"
 				},
 				"annotations": [],
 				"type": "AzureSqlTable",

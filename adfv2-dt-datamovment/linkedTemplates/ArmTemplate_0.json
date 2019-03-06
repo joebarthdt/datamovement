@@ -307,6 +307,9 @@
 					"referenceName": "AzureSqlDatabaseDB",
 					"type": "LinkedServiceReference"
 				},
+				"folder": {
+					"name": "process"
+				},
 				"annotations": [],
 				"type": "AzureSqlTable",
 				"typeProperties": {
@@ -326,6 +329,9 @@
 					"referenceName": "AzureSqlDatabaseDB",
 					"type": "LinkedServiceReference"
 				},
+				"folder": {
+					"name": "process"
+				},
 				"annotations": [],
 				"type": "AzureSqlTable",
 				"typeProperties": {
@@ -344,6 +350,9 @@
 				"linkedServiceName": {
 					"referenceName": "AzureSqlDatabaseDB",
 					"type": "LinkedServiceReference"
+				},
+				"folder": {
+					"name": "process"
 				},
 				"annotations": [],
 				"type": "AzureSqlTable",
@@ -536,6 +545,9 @@
 				"linkedServiceName": {
 					"referenceName": "ProcessProd",
 					"type": "LinkedServiceReference"
+				},
+				"folder": {
+					"name": "process"
 				},
 				"annotations": [],
 				"type": "SqlServerTable",
