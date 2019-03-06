@@ -157,6 +157,30 @@
 						"dependencyConditions": [
 							"Succeeded"
 						]
+					},
+					{
+						"activity": "scd2DimProcess",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					},
+					{
+						"activity": "scd0DimProcessStatus",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					},
+					{
+						"activity": "scd0DimProcessType",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					},
+					{
+						"activity": "scd0DimProcessGroup",
+						"dependencyConditions": [
+							"Succeeded"
+						]
 					}
 				],
 				"policy": {
@@ -194,6 +218,84 @@
 				},
 				"typeProperties": {
 					"storedProcedureName": "[dbo].[scd2DimProcess]"
+				},
+				"linkedServiceName": {
+					"referenceName": "AzureSqlDatabaseDB",
+					"type": "LinkedServiceReference"
+				}
+			},
+			{
+				"name": "scd0DimProcessStatus",
+				"type": "SqlServerStoredProcedure",
+				"dependsOn": [
+					{
+						"activity": "tblProcessStatusDimension",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"typeProperties": {
+					"storedProcedureName": "[dbo].[scd0DimProcessStatus]"
+				},
+				"linkedServiceName": {
+					"referenceName": "AzureSqlDatabaseDB",
+					"type": "LinkedServiceReference"
+				}
+			},
+			{
+				"name": "scd0DimProcessType",
+				"type": "SqlServerStoredProcedure",
+				"dependsOn": [
+					{
+						"activity": "tblProcessTypeDimension",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"typeProperties": {
+					"storedProcedureName": "[dbo].[scd0DimProcessType]"
+				},
+				"linkedServiceName": {
+					"referenceName": "AzureSqlDatabaseDB",
+					"type": "LinkedServiceReference"
+				}
+			},
+			{
+				"name": "scd0DimProcessGroup",
+				"type": "SqlServerStoredProcedure",
+				"dependsOn": [
+					{
+						"activity": "tblProcess sqltoazure",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"typeProperties": {
+					"storedProcedureName": "[dbo].[scd0DimProcessGroup]"
 				},
 				"linkedServiceName": {
 					"referenceName": "AzureSqlDatabaseDB",
