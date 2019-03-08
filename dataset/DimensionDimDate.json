@@ -1,0 +1,13 @@
+{
+	"name": "DimensionDimDate",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "EnterpriseProd",
+			"type": "LinkedServiceReference"
+		},
+		"type": "SqlServerTable",
+		"typeProperties": {
+			"tableName": "[dimension].[DimDate]"
+		}
+	}
+}
