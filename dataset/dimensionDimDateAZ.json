@@ -1,0 +1,13 @@
+{
+	"name": "dimensionDimDateAZ",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "AzureSqlDatabaseDB",
+			"type": "LinkedServiceReference"
+		},
+		"type": "AzureSqlTable",
+		"typeProperties": {
+			"tableName": "[dimension].[DimDate]"
+		}
+	}
+}

@@ -386,11 +386,21 @@
 					"source": {
 						"type": "SqlSource"
 					},
+					"sink": {
+						"type": "SqlSink",
+						"writeBatchSize": 10000
+					},
 					"enableStaging": false
 				},
 				"inputs": [
 					{
 						"referenceName": "DimensionDimDate",
+						"type": "DatasetReference"
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "dimensionDimDateAZ",
 						"type": "DatasetReference"
 					}
 				]
