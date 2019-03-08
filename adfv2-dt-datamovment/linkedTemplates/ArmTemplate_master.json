@@ -11,13 +11,13 @@
 			"type": "secureString",
 			"metadata": "Secure string for 'connectionString' of 'AzureSqlDatabaseDB'"
 		},
-		"joescomputerLS_connectionString": {
+		"EnterpriseProd_connectionString": {
 			"type": "secureString",
-			"metadata": "Secure string for 'connectionString' of 'joescomputerLS'"
+			"metadata": "Secure string for 'connectionString' of 'EnterpriseProd'"
 		},
-		"joescomputerLS_password": {
+		"EnterpriseProd_password": {
 			"type": "secureString",
-			"metadata": "Secure string for 'password' of 'joescomputerLS'"
+			"metadata": "Secure string for 'password' of 'EnterpriseProd'"
 		},
 		"ProcessProd_connectionString": {
 			"type": "secureString",
@@ -27,13 +27,13 @@
 			"type": "secureString",
 			"metadata": "Secure string for 'password' of 'ProcessProd'"
 		},
-		"EnterpriseProd_connectionString": {
+		"joescomputerLS_connectionString": {
 			"type": "secureString",
-			"metadata": "Secure string for 'connectionString' of 'EnterpriseProd'"
+			"metadata": "Secure string for 'connectionString' of 'joescomputerLS'"
 		},
-		"EnterpriseProd_password": {
+		"joescomputerLS_password": {
 			"type": "secureString",
-			"metadata": "Secure string for 'password' of 'EnterpriseProd'"
+			"metadata": "Secure string for 'password' of 'joescomputerLS'"
 		},
 		"AzureDataLakeStorageGen2_properties_typeProperties_folderPath": {
 			"type": "string",
@@ -67,7 +67,7 @@
 			"type": "string",
 			"defaultValue": "https://pass-dev-kvd2.vault.azure.net/"
 		},
-		"joescomputerLS_properties_typeProperties_userName": {
+		"EnterpriseProd_properties_typeProperties_userName": {
 			"type": "string",
 			"defaultValue": "COEXIST\\jbarth"
 		},
@@ -75,7 +75,7 @@
 			"type": "string",
 			"defaultValue": "COEXIST\\jbarth"
 		},
-		"EnterpriseProd_properties_typeProperties_userName": {
+		"joescomputerLS_properties_typeProperties_userName": {
 			"type": "string",
 			"defaultValue": "COEXIST\\jbarth"
 		},
@@ -109,11 +109,11 @@
 					"AzureSqlDatabaseDB_connectionString": {
 						"value": "[parameters('AzureSqlDatabaseDB_connectionString')]"
 					},
-					"joescomputerLS_connectionString": {
-						"value": "[parameters('joescomputerLS_connectionString')]"
+					"EnterpriseProd_connectionString": {
+						"value": "[parameters('EnterpriseProd_connectionString')]"
 					},
-					"joescomputerLS_password": {
-						"value": "[parameters('joescomputerLS_password')]"
+					"EnterpriseProd_password": {
+						"value": "[parameters('EnterpriseProd_password')]"
 					},
 					"ProcessProd_connectionString": {
 						"value": "[parameters('ProcessProd_connectionString')]"
@@ -121,11 +121,11 @@
 					"ProcessProd_password": {
 						"value": "[parameters('ProcessProd_password')]"
 					},
-					"EnterpriseProd_connectionString": {
-						"value": "[parameters('EnterpriseProd_connectionString')]"
+					"joescomputerLS_connectionString": {
+						"value": "[parameters('joescomputerLS_connectionString')]"
 					},
-					"EnterpriseProd_password": {
-						"value": "[parameters('EnterpriseProd_password')]"
+					"joescomputerLS_password": {
+						"value": "[parameters('joescomputerLS_password')]"
 					},
 					"AzureDataLakeStorageGen2_properties_typeProperties_url": {
 						"value": "[parameters('AzureDataLakeStorageGen2_properties_typeProperties_url')]"
@@ -148,14 +148,14 @@
 					"AzureDataLakeStoreDynamic_properties_typeProperties_resourceGroupName": {
 						"value": "[parameters('AzureDataLakeStoreDynamic_properties_typeProperties_resourceGroupName')]"
 					},
-					"joescomputerLS_properties_typeProperties_userName": {
-						"value": "[parameters('joescomputerLS_properties_typeProperties_userName')]"
+					"EnterpriseProd_properties_typeProperties_userName": {
+						"value": "[parameters('EnterpriseProd_properties_typeProperties_userName')]"
 					},
 					"ProcessProd_properties_typeProperties_userName": {
 						"value": "[parameters('ProcessProd_properties_typeProperties_userName')]"
 					},
-					"EnterpriseProd_properties_typeProperties_userName": {
-						"value": "[parameters('EnterpriseProd_properties_typeProperties_userName')]"
+					"joescomputerLS_properties_typeProperties_userName": {
+						"value": "[parameters('joescomputerLS_properties_typeProperties_userName')]"
 					},
 					"AzureDataLakeStoreFileDynamic_properties_typeProperties_folderPath": {
 						"value": "[parameters('AzureDataLakeStoreFileDynamic_properties_typeProperties_folderPath')]"

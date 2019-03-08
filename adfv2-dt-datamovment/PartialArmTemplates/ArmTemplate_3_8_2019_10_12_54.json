@@ -13,104 +13,6 @@
 	},
 	"resources": [
 		{
-			"name": "[concat(parameters('factoryName'), '/DimensionDimDate')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "EnterpriseProd",
-					"type": "LinkedServiceReference"
-				},
-				"annotations": [],
-				"type": "SqlServerTable",
-				"typeProperties": {
-					"tableName": "[concat('[', 'dimension].[DimDate]')]"
-				}
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/tblProcess')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"description": "Connect to your data source store.",
-				"linkedServiceName": {
-					"referenceName": "ProcessProd",
-					"type": "LinkedServiceReference"
-				},
-				"folder": {
-					"name": "process"
-				},
-				"annotations": [],
-				"type": "SqlServerTable",
-				"typeProperties": {
-					"tableName": "[concat('[', 'dbo].[tblProcess]')]"
-				}
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/tblProcessRunHistoryDS')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "ProcessProd",
-					"type": "LinkedServiceReference"
-				},
-				"folder": {
-					"name": "process"
-				},
-				"annotations": [],
-				"type": "SqlServerTable",
-				"typeProperties": {
-					"tableName": "[concat('[', 'dbo].[tblProcessRunHistory]')]"
-				}
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/tblProcessStatusDimensionDS')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "ProcessProd",
-					"type": "LinkedServiceReference"
-				},
-				"folder": {
-					"name": "process"
-				},
-				"annotations": [],
-				"type": "SqlServerTable",
-				"typeProperties": {
-					"tableName": "[concat('[', 'dbo].[tblProcessStatusDimension]')]"
-				}
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/tblProcessTypeDimensionDS')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "ProcessProd",
-					"type": "LinkedServiceReference"
-				},
-				"folder": {
-					"name": "process"
-				},
-				"annotations": [],
-				"type": "SqlServerTable",
-				"typeProperties": {
-					"tableName": "[concat('[', 'dbo].[tblProcessTypeDimension]')]"
-				}
-			},
-			"dependsOn": []
-		},
-		{
 			"name": "[concat(parameters('factoryName'), '/Copy data from on premise SQL Server to SQL Azure Initialload')]",
 			"type": "Microsoft.DataFactory/factories/pipelines",
 			"apiVersion": "2018-06-01",
@@ -121,7 +23,6 @@
 						"name": "tblProcess sqltoazure",
 						"description": "Copy data from SQL server to SQL Azure",
 						"type": "Copy",
-						"dependsOn": [],
 						"policy": {
 							"timeout": "7.00:00:00",
 							"retry": 0,
@@ -129,7 +30,6 @@
 							"secureOutput": false,
 							"secureInput": false
 						},
-						"userProperties": [],
 						"typeProperties": {
 							"source": {
 								"type": "SqlSource"
@@ -145,15 +45,13 @@
 						"inputs": [
 							{
 								"referenceName": "tblProcess",
-								"type": "DatasetReference",
-								"parameters": {}
+								"type": "DatasetReference"
 							}
 						],
 						"outputs": [
 							{
 								"referenceName": "aztblProcess",
-								"type": "DatasetReference",
-								"parameters": {}
+								"type": "DatasetReference"
 							}
 						]
 					},
@@ -161,7 +59,6 @@
 						"name": "tblProcessStatusDimension",
 						"description": "Copy data from SQL server to SQL Azure",
 						"type": "Copy",
-						"dependsOn": [],
 						"policy": {
 							"timeout": "7.00:00:00",
 							"retry": 0,
@@ -169,7 +66,6 @@
 							"secureOutput": false,
 							"secureInput": false
 						},
-						"userProperties": [],
 						"typeProperties": {
 							"source": {
 								"type": "SqlSource"
@@ -185,15 +81,13 @@
 						"inputs": [
 							{
 								"referenceName": "tblProcessStatusDimensionDS",
-								"type": "DatasetReference",
-								"parameters": {}
+								"type": "DatasetReference"
 							}
 						],
 						"outputs": [
 							{
 								"referenceName": "tblProcessStatusDimensionDT",
-								"type": "DatasetReference",
-								"parameters": {}
+								"type": "DatasetReference"
 							}
 						]
 					},
@@ -201,7 +95,6 @@
 						"name": "tblProcessTypeDimension",
 						"description": "Copy data from SQL server to SQL Azure",
 						"type": "Copy",
-						"dependsOn": [],
 						"policy": {
 							"timeout": "7.00:00:00",
 							"retry": 0,
@@ -209,7 +102,6 @@
 							"secureOutput": false,
 							"secureInput": false
 						},
-						"userProperties": [],
 						"typeProperties": {
 							"source": {
 								"type": "SqlSource"
@@ -225,15 +117,13 @@
 						"inputs": [
 							{
 								"referenceName": "tblProcessTypeDimensionDS",
-								"type": "DatasetReference",
-								"parameters": {}
+								"type": "DatasetReference"
 							}
 						],
 						"outputs": [
 							{
 								"referenceName": "tblProcessTypeDimensionDT",
-								"type": "DatasetReference",
-								"parameters": {}
+								"type": "DatasetReference"
 							}
 						]
 					},
@@ -241,7 +131,6 @@
 						"name": "tblProcessRunHistory",
 						"description": "Copy data from SQL server to SQL Azure",
 						"type": "Copy",
-						"dependsOn": [],
 						"policy": {
 							"timeout": "7.00:00:00",
 							"retry": 0,
@@ -249,7 +138,6 @@
 							"secureOutput": false,
 							"secureInput": false
 						},
-						"userProperties": [],
 						"typeProperties": {
 							"source": {
 								"type": "SqlSource",
@@ -266,15 +154,13 @@
 						"inputs": [
 							{
 								"referenceName": "tblProcessRunHistoryDS",
-								"type": "DatasetReference",
-								"parameters": {}
+								"type": "DatasetReference"
 							}
 						],
 						"outputs": [
 							{
 								"referenceName": "tblProcessRunHistoryDT",
-								"type": "DatasetReference",
-								"parameters": {}
+								"type": "DatasetReference"
 							}
 						]
 					},
@@ -332,7 +218,6 @@
 							"secureOutput": false,
 							"secureInput": false
 						},
-						"userProperties": [],
 						"typeProperties": {
 							"storedProcedureName": "[concat('[', 'dbo].[mergetblProcessRunHistory]')]"
 						},
@@ -359,7 +244,6 @@
 							"secureOutput": false,
 							"secureInput": false
 						},
-						"userProperties": [],
 						"typeProperties": {
 							"storedProcedureName": "[concat('[', 'dbo].[scd2DimProcess]')]"
 						},
@@ -386,7 +270,6 @@
 							"secureOutput": false,
 							"secureInput": false
 						},
-						"userProperties": [],
 						"typeProperties": {
 							"storedProcedureName": "[concat('[', 'dbo].[scd0DimProcessStatus]')]"
 						},
@@ -413,7 +296,6 @@
 							"secureOutput": false,
 							"secureInput": false
 						},
-						"userProperties": [],
 						"typeProperties": {
 							"storedProcedureName": "[concat('[', 'dbo].[scd0DimProcessType]')]"
 						},
@@ -440,7 +322,6 @@
 							"secureOutput": false,
 							"secureInput": false
 						},
-						"userProperties": [],
 						"typeProperties": {
 							"storedProcedureName": "[concat('[', 'dbo].[scd0DimProcessGroup]')]"
 						},
@@ -467,7 +348,6 @@
 							"secureOutput": false,
 							"secureInput": false
 						},
-						"userProperties": [],
 						"typeProperties": {
 							"storedProcedureName": "[concat('[', 'dbo].[scd0DimWorkflowFolder]')]"
 						},
@@ -494,7 +374,6 @@
 							"secureOutput": false,
 							"secureInput": false
 						},
-						"userProperties": [],
 						"typeProperties": {
 							"storedProcedureName": "[concat('[', 'dbo].[scd0DimProcessOwner]')]"
 						},
@@ -506,109 +385,8 @@
 				],
 				"folder": {
 					"name": "processControl"
-				},
-				"annotations": []
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/datasets/tblProcess')]",
-				"[concat(variables('factoryId'), '/datasets/tblProcessStatusDimensionDS')]",
-				"[concat(variables('factoryId'), '/datasets/tblProcessTypeDimensionDS')]",
-				"[concat(variables('factoryId'), '/datasets/tblProcessRunHistoryDS')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/copySinkLoops')]",
-			"type": "Microsoft.DataFactory/factories/pipelines",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"activities": [
-					{
-						"name": "uspSinkLoop",
-						"type": "Lookup",
-						"dependsOn": [],
-						"policy": {
-							"timeout": "7.00:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"source": {
-								"type": "SqlSource",
-								"sqlReaderStoredProcedureName": "[concat('[', 'adf].[uspSinkLoop]')]",
-								"storedProcedureParameters": {
-									"sinkgroup": {
-										"type": "String",
-										"value": {
-											"value": "@pipeline().parameters.sinkGroup",
-											"type": "Expression"
-										}
-									}
-								}
-							},
-							"dataset": {
-								"referenceName": "AzureSqlTableDB",
-								"type": "DatasetReference",
-								"parameters": {}
-							},
-							"firstRowOnly": false
-						}
-					},
-					{
-						"name": "ForEachCopySink",
-						"type": "ForEach",
-						"dependsOn": [
-							{
-								"activity": "uspSinkLoop",
-								"dependencyConditions": [
-									"Succeeded"
-								]
-							}
-						],
-						"userProperties": [],
-						"typeProperties": {
-							"items": {
-								"value": "@activity('uspSinkLoop').output.value",
-								"type": "Expression"
-							},
-							"activities": [
-								{
-									"name": "Execute copySink",
-									"type": "ExecutePipeline",
-									"dependsOn": [],
-									"userProperties": [],
-									"typeProperties": {
-										"pipeline": {
-											"referenceName": "copySink",
-											"type": "PipelineReference"
-										},
-										"waitOnCompletion": true,
-										"parameters": {
-											"sinkName": {
-												"value": "@item().sinkName",
-												"type": "Expression"
-											}
-										}
-									}
-								}
-							]
-						}
-					}
-				],
-				"parameters": {
-					"sinkGroup": {
-						"type": "String",
-						"defaultValue": "dim_group"
-					}
-				},
-				"folder": {
-					"name": "dynamic"
-				},
-				"annotations": []
-			},
-			"dependsOn": []
+				}
+			}
 		}
 	]
 }

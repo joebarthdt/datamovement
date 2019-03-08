@@ -8,10 +8,10 @@
 		"AzureSqlDatabaseDB_connectionString": {
 			"value": ""
 		},
-		"joescomputerLS_connectionString": {
+		"EnterpriseProd_connectionString": {
 			"value": ""
 		},
-		"joescomputerLS_password": {
+		"EnterpriseProd_password": {
 			"value": ""
 		},
 		"ProcessProd_connectionString": {
@@ -20,10 +20,10 @@
 		"ProcessProd_password": {
 			"value": ""
 		},
-		"EnterpriseProd_connectionString": {
+		"joescomputerLS_connectionString": {
 			"value": ""
 		},
-		"EnterpriseProd_password": {
+		"joescomputerLS_password": {
 			"value": ""
 		},
 		"AzureDataLakeStorageGen2_properties_typeProperties_folderPath": {
@@ -50,13 +50,13 @@
 		"AzureKeyVault_properties_typeProperties_baseUrl": {
 			"value": "https://pass-dev-kvd2.vault.azure.net/"
 		},
-		"joescomputerLS_properties_typeProperties_userName": {
+		"EnterpriseProd_properties_typeProperties_userName": {
 			"value": "COEXIST\\jbarth"
 		},
 		"ProcessProd_properties_typeProperties_userName": {
 			"value": "COEXIST\\jbarth"
 		},
-		"EnterpriseProd_properties_typeProperties_userName": {
+		"joescomputerLS_properties_typeProperties_userName": {
 			"value": "COEXIST\\jbarth"
 		}
 	}

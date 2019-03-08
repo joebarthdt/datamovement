@@ -11,13 +11,13 @@
 			"type": "secureString",
 			"metadata": "Secure string for 'connectionString' of 'AzureSqlDatabaseDB'"
 		},
-		"joescomputerLS_connectionString": {
+		"EnterpriseProd_connectionString": {
 			"type": "secureString",
-			"metadata": "Secure string for 'connectionString' of 'joescomputerLS'"
+			"metadata": "Secure string for 'connectionString' of 'EnterpriseProd'"
 		},
-		"joescomputerLS_password": {
+		"EnterpriseProd_password": {
 			"type": "secureString",
-			"metadata": "Secure string for 'password' of 'joescomputerLS'"
+			"metadata": "Secure string for 'password' of 'EnterpriseProd'"
 		},
 		"ProcessProd_connectionString": {
 			"type": "secureString",
@@ -27,13 +27,13 @@
 			"type": "secureString",
 			"metadata": "Secure string for 'password' of 'ProcessProd'"
 		},
-		"EnterpriseProd_connectionString": {
+		"joescomputerLS_connectionString": {
 			"type": "secureString",
-			"metadata": "Secure string for 'connectionString' of 'EnterpriseProd'"
+			"metadata": "Secure string for 'connectionString' of 'joescomputerLS'"
 		},
-		"EnterpriseProd_password": {
+		"joescomputerLS_password": {
 			"type": "secureString",
-			"metadata": "Secure string for 'password' of 'EnterpriseProd'"
+			"metadata": "Secure string for 'password' of 'joescomputerLS'"
 		},
 		"AzureDataLakeStorageGen2_properties_typeProperties_url": {
 			"type": "string",
@@ -63,7 +63,7 @@
 			"type": "string",
 			"defaultValue": "PASSsummit2018"
 		},
-		"joescomputerLS_properties_typeProperties_userName": {
+		"EnterpriseProd_properties_typeProperties_userName": {
 			"type": "string",
 			"defaultValue": "COEXIST\\jbarth"
 		},
@@ -71,7 +71,7 @@
 			"type": "string",
 			"defaultValue": "COEXIST\\jbarth"
 		},
-		"EnterpriseProd_properties_typeProperties_userName": {
+		"joescomputerLS_properties_typeProperties_userName": {
 			"type": "string",
 			"defaultValue": "COEXIST\\jbarth"
 		},
@@ -201,52 +201,6 @@
 			]
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/AzureDataLakeStoreDynamic')]",
-			"type": "Microsoft.DataFactory/factories/linkedServices",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"annotations": [],
-				"type": "AzureDataLakeStore",
-				"typeProperties": {
-					"dataLakeStoreUri": "[parameters('AzureDataLakeStoreDynamic_properties_typeProperties_dataLakeStoreUri')]",
-					"tenant": "[parameters('AzureDataLakeStoreDynamic_properties_typeProperties_tenant')]",
-					"subscriptionId": "[parameters('AzureDataLakeStoreDynamic_properties_typeProperties_subscriptionId')]",
-					"resourceGroupName": "[parameters('AzureDataLakeStoreDynamic_properties_typeProperties_resourceGroupName')]"
-				},
-				"connectVia": {
-					"referenceName": "integrationRuntimeEUS",
-					"type": "IntegrationRuntimeReference"
-				}
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/integrationRuntimes/integrationRuntimeEUS')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/joescomputerLS')]",
-			"type": "Microsoft.DataFactory/factories/linkedServices",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"annotations": [],
-				"type": "SqlServer",
-				"typeProperties": {
-					"connectionString": "[parameters('joescomputerLS_connectionString')]",
-					"userName": "[parameters('joescomputerLS_properties_typeProperties_userName')]",
-					"password": {
-						"type": "SecureString",
-						"value": "[parameters('joescomputerLS_password')]"
-					}
-				},
-				"connectVia": {
-					"referenceName": "JoesComputer",
-					"type": "IntegrationRuntimeReference"
-				}
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/integrationRuntimes/JoesComputer')]"
-			]
-		},
-		{
 			"name": "[concat(parameters('factoryName'), '/DataDestination1')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
@@ -265,30 +219,6 @@
 			]
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/ProcessProd')]",
-			"type": "Microsoft.DataFactory/factories/linkedServices",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"annotations": [],
-				"type": "SqlServer",
-				"typeProperties": {
-					"connectionString": "[parameters('ProcessProd_connectionString')]",
-					"userName": "[parameters('ProcessProd_properties_typeProperties_userName')]",
-					"password": {
-						"type": "SecureString",
-						"value": "[parameters('ProcessProd_password')]"
-					}
-				},
-				"connectVia": {
-					"referenceName": "JoesComputer",
-					"type": "IntegrationRuntimeReference"
-				}
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/integrationRuntimes/JoesComputer')]"
-			]
-		},
-		{
 			"name": "[concat(parameters('factoryName'), '/aztblProcess')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
@@ -304,6 +234,47 @@
 				"type": "AzureSqlTable",
 				"typeProperties": {
 					"tableName": "[concat('[', 'stg].[tblProcess]')]"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/AzureSqlDatabaseDB')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/dimensionDimDateAZ')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "AzureSqlDatabaseDB",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"typeProperties": {
+					"tableName": "[concat('[', 'dimension].[DimDate]')]"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/AzureSqlDatabaseDB')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/tblProcessRunHistoryDT')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "AzureSqlDatabaseDB",
+					"type": "LinkedServiceReference"
+				},
+				"folder": {
+					"name": "process"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"typeProperties": {
+					"tableName": "[concat('[', 'stg].[tblProcessRunHistory]')]"
 				}
 			},
 			"dependsOn": [
@@ -355,25 +326,25 @@
 			]
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/tblProcessRunHistoryDT')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
+			"name": "[concat(parameters('factoryName'), '/AzureDataLakeStoreDynamic')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
 			"apiVersion": "2018-06-01",
 			"properties": {
-				"linkedServiceName": {
-					"referenceName": "AzureSqlDatabaseDB",
-					"type": "LinkedServiceReference"
-				},
-				"folder": {
-					"name": "process"
-				},
 				"annotations": [],
-				"type": "AzureSqlTable",
+				"type": "AzureDataLakeStore",
 				"typeProperties": {
-					"tableName": "[concat('[', 'stg].[tblProcessRunHistory]')]"
+					"dataLakeStoreUri": "[parameters('AzureDataLakeStoreDynamic_properties_typeProperties_dataLakeStoreUri')]",
+					"tenant": "[parameters('AzureDataLakeStoreDynamic_properties_typeProperties_tenant')]",
+					"subscriptionId": "[parameters('AzureDataLakeStoreDynamic_properties_typeProperties_subscriptionId')]",
+					"resourceGroupName": "[parameters('AzureDataLakeStoreDynamic_properties_typeProperties_resourceGroupName')]"
+				},
+				"connectVia": {
+					"referenceName": "integrationRuntimeEUS",
+					"type": "IntegrationRuntimeReference"
 				}
 			},
 			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/AzureSqlDatabaseDB')]"
+				"[concat(variables('factoryId'), '/integrationRuntimes/integrationRuntimeEUS')]"
 			]
 		},
 		{
@@ -401,22 +372,51 @@
 			]
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/dimensionDimDateAZ')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
+			"name": "[concat(parameters('factoryName'), '/ProcessProd')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
 			"apiVersion": "2018-06-01",
 			"properties": {
-				"linkedServiceName": {
-					"referenceName": "AzureSqlDatabaseDB",
-					"type": "LinkedServiceReference"
-				},
 				"annotations": [],
-				"type": "AzureSqlTable",
+				"type": "SqlServer",
 				"typeProperties": {
-					"tableName": "[concat('[', 'dimension].[DimDate]')]"
+					"connectionString": "[parameters('ProcessProd_connectionString')]",
+					"userName": "[parameters('ProcessProd_properties_typeProperties_userName')]",
+					"password": {
+						"type": "SecureString",
+						"value": "[parameters('ProcessProd_password')]"
+					}
+				},
+				"connectVia": {
+					"referenceName": "JoesComputer",
+					"type": "IntegrationRuntimeReference"
 				}
 			},
 			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/AzureSqlDatabaseDB')]"
+				"[concat(variables('factoryId'), '/integrationRuntimes/JoesComputer')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/joescomputerLS')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"type": "SqlServer",
+				"typeProperties": {
+					"connectionString": "[parameters('joescomputerLS_connectionString')]",
+					"userName": "[parameters('joescomputerLS_properties_typeProperties_userName')]",
+					"password": {
+						"type": "SecureString",
+						"value": "[parameters('joescomputerLS_password')]"
+					}
+				},
+				"connectVia": {
+					"referenceName": "JoesComputer",
+					"type": "IntegrationRuntimeReference"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/integrationRuntimes/JoesComputer')]"
 			]
 		},
 		{
