@@ -27,6 +27,14 @@
 			"type": "secureString",
 			"metadata": "Secure string for 'password' of 'ProcessProd'"
 		},
+		"EnterpriseProd_connectionString": {
+			"type": "secureString",
+			"metadata": "Secure string for 'connectionString' of 'EnterpriseProd'"
+		},
+		"EnterpriseProd_password": {
+			"type": "secureString",
+			"metadata": "Secure string for 'password' of 'EnterpriseProd'"
+		},
 		"AzureDataLakeStorageGen2_properties_typeProperties_folderPath": {
 			"type": "string",
 			"defaultValue": "@activity('uspGetSink').output.firstRow.sinkValue"
@@ -64,6 +72,10 @@
 			"defaultValue": "COEXIST\\jbarth"
 		},
 		"ProcessProd_properties_typeProperties_userName": {
+			"type": "string",
+			"defaultValue": "COEXIST\\jbarth"
+		},
+		"EnterpriseProd_properties_typeProperties_userName": {
 			"type": "string",
 			"defaultValue": "COEXIST\\jbarth"
 		}
@@ -735,6 +747,12 @@
 								"dependencyConditions": [
 									"Succeeded"
 								]
+							},
+							{
+								"activity": "dimDate",
+								"dependencyConditions": [
+									"Succeeded"
+								]
 							}
 						],
 						"policy": {
@@ -914,6 +932,43 @@
 							"referenceName": "AzureSqlDatabaseDB",
 							"type": "LinkedServiceReference"
 						}
+					},
+					{
+						"name": "dimDate",
+						"type": "Copy",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "SqlSource"
+							},
+							"sink": {
+								"type": "SqlSink",
+								"writeBatchSize": 10000
+							},
+							"enableStaging": false
+						},
+						"inputs": [
+							{
+								"referenceName": "DimensionDimDate",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "dimensionDimDateAZ",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						]
 					}
 				],
 				"folder": {
@@ -930,7 +985,9 @@
 				"[concat(variables('factoryId'), '/datasets/tblProcessTypeDimensionDT')]",
 				"[concat(variables('factoryId'), '/datasets/tblProcessRunHistoryDS')]",
 				"[concat(variables('factoryId'), '/datasets/tblProcessRunHistoryDT')]",
-				"[concat(variables('factoryId'), '/linkedServices/AzureSqlDatabaseDB')]"
+				"[concat(variables('factoryId'), '/linkedServices/AzureSqlDatabaseDB')]",
+				"[concat(variables('factoryId'), '/datasets/DimensionDimDate')]",
+				"[concat(variables('factoryId'), '/datasets/dimensionDimDateAZ')]"
 			]
 		},
 		{
@@ -1105,6 +1162,68 @@
 				"type": "AzureSqlTable",
 				"typeProperties": {
 					"tableName": "[concat('[', 'stg].[tblProcessRunHistory]')]"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/AzureSqlDatabaseDB')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/DimensionDimDate')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "EnterpriseProd",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "SqlServerTable",
+				"typeProperties": {
+					"tableName": "[concat('[', 'dimension].[DimDate]')]"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/EnterpriseProd')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/EnterpriseProd')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"type": "SqlServer",
+				"typeProperties": {
+					"connectionString": "[parameters('EnterpriseProd_connectionString')]",
+					"userName": "[parameters('EnterpriseProd_properties_typeProperties_userName')]",
+					"password": {
+						"type": "SecureString",
+						"value": "[parameters('EnterpriseProd_password')]"
+					}
+				},
+				"connectVia": {
+					"referenceName": "JoesComputer",
+					"type": "IntegrationRuntimeReference"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/integrationRuntimes/JoesComputer')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/dimensionDimDateAZ')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "AzureSqlDatabaseDB",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"typeProperties": {
+					"tableName": "[concat('[', 'dimension].[DimDate]')]"
 				}
 			},
 			"dependsOn": [

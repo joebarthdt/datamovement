@@ -27,6 +27,14 @@
 			"type": "secureString",
 			"metadata": "Secure string for 'password' of 'ProcessProd'"
 		},
+		"EnterpriseProd_connectionString": {
+			"type": "secureString",
+			"metadata": "Secure string for 'connectionString' of 'EnterpriseProd'"
+		},
+		"EnterpriseProd_password": {
+			"type": "secureString",
+			"metadata": "Secure string for 'password' of 'EnterpriseProd'"
+		},
 		"AzureDataLakeStorageGen2_properties_typeProperties_folderPath": {
 			"type": "string",
 			"defaultValue": "@activity('uspGetSink').output.firstRow.sinkValue"
@@ -64,6 +72,10 @@
 			"defaultValue": "COEXIST\\jbarth"
 		},
 		"ProcessProd_properties_typeProperties_userName": {
+			"type": "string",
+			"defaultValue": "COEXIST\\jbarth"
+		},
+		"EnterpriseProd_properties_typeProperties_userName": {
 			"type": "string",
 			"defaultValue": "COEXIST\\jbarth"
 		},
@@ -109,6 +121,12 @@
 					"ProcessProd_password": {
 						"value": "[parameters('ProcessProd_password')]"
 					},
+					"EnterpriseProd_connectionString": {
+						"value": "[parameters('EnterpriseProd_connectionString')]"
+					},
+					"EnterpriseProd_password": {
+						"value": "[parameters('EnterpriseProd_password')]"
+					},
 					"AzureDataLakeStorageGen2_properties_typeProperties_url": {
 						"value": "[parameters('AzureDataLakeStorageGen2_properties_typeProperties_url')]"
 					},
@@ -135,6 +153,9 @@
 					},
 					"ProcessProd_properties_typeProperties_userName": {
 						"value": "[parameters('ProcessProd_properties_typeProperties_userName')]"
+					},
+					"EnterpriseProd_properties_typeProperties_userName": {
+						"value": "[parameters('EnterpriseProd_properties_typeProperties_userName')]"
 					},
 					"AzureDataLakeStoreFileDynamic_properties_typeProperties_folderPath": {
 						"value": "[parameters('AzureDataLakeStoreFileDynamic_properties_typeProperties_folderPath')]"

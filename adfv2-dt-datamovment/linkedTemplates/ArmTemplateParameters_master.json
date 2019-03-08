@@ -20,6 +20,12 @@
 		"ProcessProd_password": {
 			"value": ""
 		},
+		"EnterpriseProd_connectionString": {
+			"value": ""
+		},
+		"EnterpriseProd_password": {
+			"value": ""
+		},
 		"AzureDataLakeStorageGen2_properties_typeProperties_folderPath": {
 			"value": "@activity('uspGetSink').output.firstRow.sinkValue"
 		},
@@ -48,6 +54,9 @@
 			"value": "COEXIST\\jbarth"
 		},
 		"ProcessProd_properties_typeProperties_userName": {
+			"value": "COEXIST\\jbarth"
+		},
+		"EnterpriseProd_properties_typeProperties_userName": {
 			"value": "COEXIST\\jbarth"
 		}
 	}
