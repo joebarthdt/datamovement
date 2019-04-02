@@ -58,6 +58,12 @@
 		},
 		"joescomputerLS_properties_typeProperties_userName": {
 			"value": "COEXIST\\jbarth"
+		},
+		"containerUri": {
+			"value": ""
+		},
+		"containerSasToken": {
+			"value": ""
 		}
 	}
 }
