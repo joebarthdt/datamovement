@@ -5,6 +5,9 @@
 		"factoryName": {
 			"value": "adfv2-dt-datamovment"
 		},
+		"AzureBlobStorageLabStorage_connectionString": {
+			"value": ""
+		},
 		"AzureSqlDatabaseDB_connectionString": {
 			"value": ""
 		},
@@ -43,9 +46,6 @@
 		},
 		"AzureDataLakeStoreFileDynamic_properties_typeProperties_folderPath": {
 			"value": "@activity('uspGetSink').output.firstRow.sinkValue"
-		},
-		"AzureBlobStorageLabStorage_properties_typeProperties_serviceEndpoint": {
-			"value": "https://drivetimedflabblob.blob.core.windows.net"
 		},
 		"AzureDataLakeStorageGen2_properties_typeProperties_url": {
 			"value": "https://dtadlsgen2.dfs.core.windows.net"

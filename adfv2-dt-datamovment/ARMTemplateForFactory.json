@@ -7,6 +7,10 @@
 			"metadata": "Data Factory Name",
 			"defaultValue": "adfv2-dt-datamovment"
 		},
+		"AzureBlobStorageLabStorage_connectionString": {
+			"type": "secureString",
+			"metadata": "Secure string for 'connectionString' of 'AzureBlobStorageLabStorage'"
+		},
 		"AzureSqlDatabaseDB_connectionString": {
 			"type": "secureString",
 			"metadata": "Secure string for 'connectionString' of 'AzureSqlDatabaseDB'"
@@ -58,10 +62,6 @@
 		"AzureDataLakeStoreFileDynamic_properties_typeProperties_folderPath": {
 			"type": "string",
 			"defaultValue": "@activity('uspGetSink').output.firstRow.sinkValue"
-		},
-		"AzureBlobStorageLabStorage_properties_typeProperties_serviceEndpoint": {
-			"type": "string",
-			"defaultValue": "https://drivetimedflabblob.blob.core.windows.net"
 		},
 		"AzureDataLakeStorageGen2_properties_typeProperties_url": {
 			"type": "string",
@@ -1358,6 +1358,7 @@
 				"typeProperties": {
 					"location": {
 						"type": "AzureBlobStorageLocation",
+						"folderPath": "movie_results",
 						"container": "demo"
 					},
 					"columnDelimiter": ",",
@@ -1618,7 +1619,7 @@
 				"annotations": [],
 				"type": "AzureBlobStorage",
 				"typeProperties": {
-					"serviceEndpoint": "[parameters('AzureBlobStorageLabStorage_properties_typeProperties_serviceEndpoint')]"
+					"connectionString": "[parameters('AzureBlobStorageLabStorage_connectionString')]"
 				}
 			},
 			"dependsOn": []
