@@ -9,6 +9,8 @@
 		"typeProperties": {
 			"location": {
 				"type": "AzureBlobStorageLocation",
+				"fileName": "move_dataflow_sink1.csv",
+				"folderPath": "results",
 				"container": "demo"
 			},
 			"columnDelimiter": ",",
