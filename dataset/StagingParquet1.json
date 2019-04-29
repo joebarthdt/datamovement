@@ -1,6 +1,10 @@
 {
 	"name": "StagingParquet1",
 	"properties": {
+		"linkedServiceName": {
+			"referenceName": "AzureBlobStorageLabStorage",
+			"type": "LinkedServiceReference"
+		},
 		"type": "Parquet",
 		"typeProperties": {
 			"location": {
