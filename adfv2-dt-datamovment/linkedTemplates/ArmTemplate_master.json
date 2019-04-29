@@ -39,9 +39,29 @@
 			"type": "string",
 			"defaultValue": "@activity('uspGetSink').output.firstRow.sinkValue"
 		},
+		"AzureDataLakeStoreDataDestination1_properties_typeProperties_fileName": {
+			"type": "string",
+			"defaultValue": "@dataset().FileName"
+		},
+		"AzureDataLakeStoreDataDestination1_properties_typeProperties_folderPath": {
+			"type": "string",
+			"defaultValue": "@dataset().FolderPath"
+		},
+		"AzureDataLakeStoreDataDestination2_properties_typeProperties_fileName": {
+			"type": "string",
+			"defaultValue": "@CONCAT('DeltaCopyfromDB_using_ControlTable-', pipeline().RunId, '.txt')"
+		},
+		"AzureDataLakeStoreDataDestination2_properties_typeProperties_folderPath": {
+			"type": "string",
+			"defaultValue": "@dataset().FolderPath"
+		},
 		"AzureDataLakeStoreFileDynamic_properties_typeProperties_folderPath": {
 			"type": "string",
 			"defaultValue": "@activity('uspGetSink').output.firstRow.sinkValue"
+		},
+		"AzureBlobStorageLabStorage_properties_typeProperties_serviceEndpoint": {
+			"type": "string",
+			"defaultValue": "https://drivetimedflabblob.blob.core.windows.net"
 		},
 		"AzureDataLakeStorageGen2_properties_typeProperties_url": {
 			"type": "string",
@@ -79,26 +99,6 @@
 			"type": "string",
 			"defaultValue": "COEXIST\\jbarth"
 		},
-		"AzureDataLakeStoreDataDestination1_properties_typeProperties_fileName": {
-			"type": "string",
-			"defaultValue": "@dataset().FileName"
-		},
-		"AzureDataLakeStoreDataDestination1_properties_typeProperties_folderPath": {
-			"type": "string",
-			"defaultValue": "@dataset().FolderPath"
-		},
-		"AzureDataLakeStoreDataDestination2_properties_typeProperties_fileName": {
-			"type": "string",
-			"defaultValue": "@CONCAT('DeltaCopyfromDB_using_ControlTable-', pipeline().RunId, '.txt')"
-		},
-		"AzureDataLakeStoreDataDestination2_properties_typeProperties_folderPath": {
-			"type": "string",
-			"defaultValue": "@dataset().FolderPath"
-		},
-		"AzureBlobStorageLabStorage_properties_typeProperties_serviceEndpoint": {
-			"type": "string",
-			"defaultValue": "https://drivetimedflabblob.blob.core.windows.net"
-		},
 		"containerUri": {
 			"type": "string",
 			"metadata": "URI to storage account containing linked ARM templates"
@@ -129,6 +129,36 @@
 					"AzureSqlDatabaseDB_connectionString": {
 						"value": "[parameters('AzureSqlDatabaseDB_connectionString')]"
 					},
+					"AzureBlobStorageLabStorage_properties_typeProperties_serviceEndpoint": {
+						"value": "[parameters('AzureBlobStorageLabStorage_properties_typeProperties_serviceEndpoint')]"
+					},
+					"AzureDataLakeStorageGen2_properties_typeProperties_url": {
+						"value": "[parameters('AzureDataLakeStorageGen2_properties_typeProperties_url')]"
+					},
+					"AzureKeyVault_properties_typeProperties_baseUrl": {
+						"value": "[parameters('AzureKeyVault_properties_typeProperties_baseUrl')]"
+					},
+					"AzureDataLakeStorageGen2_properties_typeProperties_folderPath": {
+						"value": "[parameters('AzureDataLakeStorageGen2_properties_typeProperties_folderPath')]"
+					}
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "ArmTemplate_1",
+			"type": "Microsoft.Resources/deployments",
+			"apiVersion": "2018-02-01",
+			"properties": {
+				"mode": "incremental",
+				"templateLink": {
+					"uri": "[concat(parameters('containerUri'), '/ArmTemplate_1.json', parameters('containerSasToken'))]",
+					"contentVersion": "1.0.0.0"
+				},
+				"parameters": {
+					"factoryName": {
+						"value": "[parameters('factoryName')]"
+					},
 					"EnterpriseProd_connectionString": {
 						"value": "[parameters('EnterpriseProd_connectionString')]"
 					},
@@ -146,18 +176,6 @@
 					},
 					"joescomputerLS_password": {
 						"value": "[parameters('joescomputerLS_password')]"
-					},
-					"AzureDataLakeStorageGen2_properties_typeProperties_url": {
-						"value": "[parameters('AzureDataLakeStorageGen2_properties_typeProperties_url')]"
-					},
-					"AzureKeyVault_properties_typeProperties_baseUrl": {
-						"value": "[parameters('AzureKeyVault_properties_typeProperties_baseUrl')]"
-					},
-					"AzureBlobStorageLabStorage_properties_typeProperties_serviceEndpoint": {
-						"value": "[parameters('AzureBlobStorageLabStorage_properties_typeProperties_serviceEndpoint')]"
-					},
-					"AzureDataLakeStorageGen2_properties_typeProperties_folderPath": {
-						"value": "[parameters('AzureDataLakeStorageGen2_properties_typeProperties_folderPath')]"
 					},
 					"AzureDataLakeStoreDynamic_properties_typeProperties_dataLakeStoreUri": {
 						"value": "[parameters('AzureDataLakeStoreDynamic_properties_typeProperties_dataLakeStoreUri')]"
@@ -179,24 +197,18 @@
 					},
 					"joescomputerLS_properties_typeProperties_userName": {
 						"value": "[parameters('joescomputerLS_properties_typeProperties_userName')]"
-					}
-				}
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "ArmTemplate_1",
-			"type": "Microsoft.Resources/deployments",
-			"apiVersion": "2018-02-01",
-			"properties": {
-				"mode": "incremental",
-				"templateLink": {
-					"uri": "[concat(parameters('containerUri'), '/ArmTemplate_1.json', parameters('containerSasToken'))]",
-					"contentVersion": "1.0.0.0"
-				},
-				"parameters": {
-					"factoryName": {
-						"value": "[parameters('factoryName')]"
+					},
+					"AzureDataLakeStoreDataDestination1_properties_typeProperties_fileName": {
+						"value": "[parameters('AzureDataLakeStoreDataDestination1_properties_typeProperties_fileName')]"
+					},
+					"AzureDataLakeStoreDataDestination1_properties_typeProperties_folderPath": {
+						"value": "[parameters('AzureDataLakeStoreDataDestination1_properties_typeProperties_folderPath')]"
+					},
+					"AzureDataLakeStoreDataDestination2_properties_typeProperties_fileName": {
+						"value": "[parameters('AzureDataLakeStoreDataDestination2_properties_typeProperties_fileName')]"
+					},
+					"AzureDataLakeStoreDataDestination2_properties_typeProperties_folderPath": {
+						"value": "[parameters('AzureDataLakeStoreDataDestination2_properties_typeProperties_folderPath')]"
 					},
 					"AzureDataLakeStoreFileDynamic_properties_typeProperties_folderPath": {
 						"value": "[parameters('AzureDataLakeStoreFileDynamic_properties_typeProperties_folderPath')]"
@@ -220,18 +232,6 @@
 				"parameters": {
 					"factoryName": {
 						"value": "[parameters('factoryName')]"
-					},
-					"AzureDataLakeStoreDataDestination1_properties_typeProperties_fileName": {
-						"value": "[parameters('AzureDataLakeStoreDataDestination1_properties_typeProperties_fileName')]"
-					},
-					"AzureDataLakeStoreDataDestination1_properties_typeProperties_folderPath": {
-						"value": "[parameters('AzureDataLakeStoreDataDestination1_properties_typeProperties_folderPath')]"
-					},
-					"AzureDataLakeStoreDataDestination2_properties_typeProperties_fileName": {
-						"value": "[parameters('AzureDataLakeStoreDataDestination2_properties_typeProperties_fileName')]"
-					},
-					"AzureDataLakeStoreDataDestination2_properties_typeProperties_folderPath": {
-						"value": "[parameters('AzureDataLakeStoreDataDestination2_properties_typeProperties_folderPath')]"
 					}
 				}
 			},
