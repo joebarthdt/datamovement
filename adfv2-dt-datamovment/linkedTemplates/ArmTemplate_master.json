@@ -39,6 +39,14 @@
 			"type": "secureString",
 			"metadata": "Secure string for 'password' of 'joescomputerLS'"
 		},
+		"AzureBlobStorageSourceDatasetEntity1_properties_typeProperties_fileName": {
+			"type": "string",
+			"defaultValue": "Address.csv"
+		},
+		"AzureBlobStorageSourceDatasetEntity1_properties_typeProperties_folderPath": {
+			"type": "string",
+			"defaultValue": "demo"
+		},
 		"AzureDataLakeStorageGen2_properties_typeProperties_folderPath": {
 			"type": "string",
 			"defaultValue": "@activity('uspGetSink').output.firstRow.sinkValue"
@@ -137,6 +145,12 @@
 					},
 					"AzureKeyVault_properties_typeProperties_baseUrl": {
 						"value": "[parameters('AzureKeyVault_properties_typeProperties_baseUrl')]"
+					},
+					"AzureBlobStorageSourceDatasetEntity1_properties_typeProperties_fileName": {
+						"value": "[parameters('AzureBlobStorageSourceDatasetEntity1_properties_typeProperties_fileName')]"
+					},
+					"AzureBlobStorageSourceDatasetEntity1_properties_typeProperties_folderPath": {
+						"value": "[parameters('AzureBlobStorageSourceDatasetEntity1_properties_typeProperties_folderPath')]"
 					},
 					"AzureDataLakeStorageGen2_properties_typeProperties_folderPath": {
 						"value": "[parameters('AzureDataLakeStorageGen2_properties_typeProperties_folderPath')]"

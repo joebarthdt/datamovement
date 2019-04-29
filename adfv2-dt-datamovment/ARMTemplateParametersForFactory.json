@@ -29,6 +29,12 @@
 		"joescomputerLS_password": {
 			"value": ""
 		},
+		"AzureBlobStorageSourceDatasetEntity1_properties_typeProperties_fileName": {
+			"value": "Address.csv"
+		},
+		"AzureBlobStorageSourceDatasetEntity1_properties_typeProperties_folderPath": {
+			"value": "demo"
+		},
 		"AzureDataLakeStorageGen2_properties_typeProperties_folderPath": {
 			"value": "@activity('uspGetSink').output.firstRow.sinkValue"
 		},
