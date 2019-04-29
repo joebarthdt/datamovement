@@ -55,21 +55,79 @@
 					"batchCount": 5,
 					"activities": [
 						{
-							"name": "CopyOnePartition",
-							"description": "Copy activity to copy each partition from source database store to destination store.",
-							"type": "Copy",
+							"name": "Lookup1",
+							"description": "Retrieve  the last high-watermark value stored in external control table",
+							"type": "Lookup",
 							"policy": {
 								"timeout": "7.00:00:00",
 								"retry": 0,
-								"retryIntervalInSeconds": 30,
-								"secureOutput": false,
-								"secureInput": false
+								"retryIntervalInSeconds": 30
 							},
 							"typeProperties": {
 								"source": {
 									"type": "SqlSource",
 									"sqlReaderQuery": {
-										"value": "@item().FilterQuery",
+										"value": "select @{pipeline().parameters.Control_Table_Column_Name} as WatermarkValue from @{pipeline().parameters.Control_Table_Table_Name}",
+										"type": "Expression"
+									}
+								},
+								"dataset": {
+									"referenceName": "AzureSqlDatabaseExternal_ControlTable2",
+									"type": "DatasetReference"
+								}
+							}
+						},
+						{
+							"name": "Lookup2",
+							"description": "Retrieve  the current maximum value in watermark column of source data store",
+							"type": "Lookup",
+							"policy": {
+								"timeout": "7.00:00:00",
+								"retry": 0,
+								"retryIntervalInSeconds": 30
+							},
+							"typeProperties": {
+								"source": {
+									"type": "SqlSource",
+									"sqlReaderQuery": {
+										"value": "@concat('select MAX(',pipeline().parameters.Data_Source_WaterMarkColumn, ') as NewWatermarkValue from ',pipeline().parameters.Data_Source_Table_Name)",
+										"type": "Expression"
+									}
+								},
+								"dataset": {
+									"referenceName": "AzureSqlDatabaseDataSource2",
+									"type": "DatasetReference"
+								}
+							}
+						},
+						{
+							"name": "Copy1",
+							"description": "Copy activity to use query to filter the delta data by > last high-watermark and <= current high-watermark from source database, and then only copy the changes to the destination store.",
+							"type": "Copy",
+							"dependsOn": [
+								{
+									"activity": "Lookup2",
+									"dependencyConditions": [
+										"Succeeded"
+									]
+								},
+								{
+									"activity": "Lookup1",
+									"dependencyConditions": [
+										"Succeeded"
+									]
+								}
+							],
+							"policy": {
+								"timeout": "7.00:00:00",
+								"retry": 0,
+								"retryIntervalInSeconds": 30
+							},
+							"typeProperties": {
+								"source": {
+									"type": "SqlSource",
+									"sqlReaderQuery": {
+										"value": "select * from @{pipeline().parameters.Data_Source_Table_Name} where @{pipeline().parameters.Data_Source_WaterMarkColumn} > '@{activity('LookupLastWaterMark').output.firstRow.WatermarkValue}' and @{pipeline().parameters.Data_Source_WaterMarkColumn} <= '@{activity('LookupCurrentWaterMark').output.firstRow.NewWatermarkValue}'",
 										"type": "Expression"
 									}
 								},
@@ -81,26 +139,55 @@
 							},
 							"inputs": [
 								{
-									"referenceName": "AzureSqlDatabaseDataSource1",
+									"referenceName": "AzureSqlDatabaseDataSource2",
 									"type": "DatasetReference"
 								}
 							],
 							"outputs": [
 								{
-									"referenceName": "AzureDataLakeStoreDataDestination1",
+									"referenceName": "AzureDataLakeStoreDataDestination2",
 									"type": "DatasetReference",
 									"parameters": {
 										"FolderPath": {
 											"value": "@pipeline().parameters.Data_Destination_Folder_Path",
 											"type": "Expression"
-										},
-										"FileName": {
-											"value": "@concat('Partition_',item().PartitionID,'_',item().SourceTableName)",
-											"type": "Expression"
 										}
 									}
 								}
 							]
+						},
+						{
+							"name": "SqlServerStoredProcedure1",
+							"description": "Stored procedure activity to store the new high-watermark value into external control table for delta data loading. ",
+							"type": "SqlServerStoredProcedure",
+							"dependsOn": [
+								{
+									"activity": "Copy1",
+									"dependencyConditions": [
+										"Succeeded"
+									]
+								}
+							],
+							"policy": {
+								"timeout": "7.00:00:00",
+								"retry": 0,
+								"retryIntervalInSeconds": 30
+							},
+							"typeProperties": {
+								"storedProcedureParameters": {
+									"LastModifyDate": {
+										"value": {
+											"value": "@activity('LookupCurrentWaterMark').output.firstRow.NewWatermarkValue",
+											"type": "Expression"
+										},
+										"type": "datetime"
+									}
+								}
+							},
+							"linkedServiceName": {
+								"referenceName": "AzureSqlDatabaseDB",
+								"type": "LinkedServiceReference"
+							}
 						}
 					]
 				}
