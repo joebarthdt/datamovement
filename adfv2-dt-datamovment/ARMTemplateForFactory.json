@@ -592,7 +592,12 @@
 									"TotalPaymentByPaymentType": {}
 								}
 							},
-							"staging": {},
+							"staging": {
+								"linkedService": {
+									"referenceName": "AzureBlobStorageLabStorage",
+									"type": "LinkedServiceReference"
+								}
+							},
 							"compute": {
 								"computeType": "General",
 								"coreCount": 8
@@ -603,7 +608,8 @@
 				"annotations": []
 			},
 			"dependsOn": [
-				"[concat(variables('factoryId'), '/dataflows/TaxiDemo1')]"
+				"[concat(variables('factoryId'), '/dataflows/TaxiDemo1')]",
+				"[concat(variables('factoryId'), '/linkedServices/AzureBlobStorageLabStorage')]"
 			]
 		},
 		{
