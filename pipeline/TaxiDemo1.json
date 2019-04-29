@@ -16,6 +16,12 @@
 						"referenceName": "TaxiDemo1",
 						"type": "DataFlowReference"
 					},
+					"staging": {
+						"linkedService": {
+							"referenceName": "AzureBlobStorageLabStorage",
+							"type": "LinkedServiceReference"
+						}
+					},
 					"compute": {
 						"computeType": "General",
 						"coreCount": 8
