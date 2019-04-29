@@ -43,6 +43,10 @@
 			"type": "string",
 			"defaultValue": "https://pass-dev-kvd2.vault.azure.net/"
 		},
+		"AzureBlobStorageLabStorage_properties_typeProperties_serviceEndpoint": {
+			"type": "string",
+			"defaultValue": "https://drivetimedflabblob.blob.core.windows.net"
+		},
 		"AzureDataLakeStorageGen2_properties_typeProperties_folderPath": {
 			"type": "string",
 			"defaultValue": "@activity('uspGetSink').output.firstRow.sinkValue"
@@ -74,10 +78,6 @@
 		"joescomputerLS_properties_typeProperties_userName": {
 			"type": "string",
 			"defaultValue": "COEXIST\\jbarth"
-		},
-		"AzureDataLakeStoreFileDynamic_properties_typeProperties_folderPath": {
-			"type": "string",
-			"defaultValue": "@activity('uspGetSink').output.firstRow.sinkValue"
 		}
 	},
 	"variables": {
@@ -141,13 +141,21 @@
 				"type": "Managed",
 				"typeProperties": {
 					"computeProperties": {
-						"location": "East US",
-						"dataFlowRuntime": {
-							"computeType": "General",
-							"coreCount": 8,
-							"timeToLiveInMinutes": 60
-						}
+						"location": "East US"
 					}
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/AzureBlobStorageLabStorage')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"type": "AzureBlobStorage",
+				"typeProperties": {
+					"serviceEndpoint": "[parameters('AzureBlobStorageLabStorage_properties_typeProperties_serviceEndpoint')]"
 				}
 			},
 			"dependsOn": []
@@ -425,153 +433,51 @@
 			]
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/copySink')]",
-			"type": "Microsoft.DataFactory/factories/pipelines",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"activities": [
-					{
-						"name": "SQLtoADLS",
-						"type": "Copy",
-						"dependsOn": [
-							{
-								"activity": "uspGetSink",
-								"dependencyConditions": [
-									"Succeeded"
-								]
-							}
-						],
-						"policy": {
-							"timeout": "7.00:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"source": {
-								"type": "SqlSource",
-								"sqlReaderQuery": {
-									"value": "@activity('uspGetSink').output.firstRow.sourceValue",
-									"type": "Expression"
-								}
-							},
-							"sink": {
-								"type": "AzureBlobFSSink"
-							},
-							"enableStaging": false,
-							"dataIntegrationUnits": 0
-						},
-						"inputs": [
-							{
-								"referenceName": "AzureSqlTableDB",
-								"type": "DatasetReference",
-								"parameters": {}
-							}
-						],
-						"outputs": [
-							{
-								"referenceName": "AzureDataLakeStorageGen2",
-								"type": "DatasetReference",
-								"parameters": {}
-							}
-						]
-					},
-					{
-						"name": "uspGetSink",
-						"type": "Lookup",
-						"dependsOn": [],
-						"policy": {
-							"timeout": "7.00:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"source": {
-								"type": "SqlSource",
-								"sqlReaderStoredProcedureName": "[concat('[', 'adf].[uspGetSink]')]",
-								"storedProcedureParameters": {
-									"sinkName": {
-										"type": "String",
-										"value": {
-											"value": "@pipeline().parameters.sinkName",
-											"type": "Expression"
-										}
-									}
-								}
-							},
-							"dataset": {
-								"referenceName": "AzureSqlTableDB",
-								"type": "DatasetReference",
-								"parameters": {}
-							}
-						}
-					}
-				],
-				"parameters": {
-					"sinkName": {
-						"type": "String",
-						"defaultValue": "SalesLT_Address"
-					}
-				},
-				"folder": {
-					"name": "dynamic"
-				},
-				"annotations": []
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/datasets/AzureSqlTableDB')]",
-				"[concat(variables('factoryId'), '/datasets/AzureDataLakeStorageGen2')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/AzureDataLakeStoreFileDynamic')]",
+			"name": "[concat(parameters('factoryName'), '/AzureSqlDatabaseExternal_ControlTable1')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
 			"properties": {
+				"description": "The external control table is used to store the partition list of data source tables.",
 				"linkedServiceName": {
-					"referenceName": "AzureDataLakeStoreDynamic",
+					"referenceName": "AzureSqlDatabaseDB",
 					"type": "LinkedServiceReference"
 				},
-				"folder": {
-					"name": "dynamic"
+				"parameters": {
+					"TableName": {
+						"type": "String"
+					}
 				},
 				"annotations": [],
-				"type": "AzureDataLakeStoreFile",
+				"type": "AzureSqlTable",
 				"typeProperties": {
-					"format": {
-						"type": "JsonFormat",
-						"filePattern": "setOfObjects"
-					},
-					"folderPath": {
-						"value": "[parameters('AzureDataLakeStoreFileDynamic_properties_typeProperties_folderPath')]",
+					"tableName": {
+						"value": "@dataset().TableName",
 						"type": "Expression"
 					}
 				}
 			},
 			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/AzureDataLakeStoreDynamic')]"
+				"[concat(variables('factoryId'), '/linkedServices/AzureSqlDatabaseDB')]"
 			]
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/DWHTEST_DATAWAREHOUSE')]",
+			"name": "[concat(parameters('factoryName'), '/AzureSqlDatabaseDataSource1')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
 			"properties": {
+				"description": "Connection to your data source store.",
 				"linkedServiceName": {
-					"referenceName": "joescomputerLS",
+					"referenceName": "AzureSqlDatabaseDB",
 					"type": "LinkedServiceReference"
 				},
 				"annotations": [],
-				"type": "SqlServerTable",
-				"typeProperties": {}
+				"type": "AzureSqlTable",
+				"typeProperties": {
+					"tableName": "[concat('[', 'dbo].[xuyetable]')]"
+				}
 			},
 			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/joescomputerLS')]"
+				"[concat(variables('factoryId'), '/linkedServices/AzureSqlDatabaseDB')]"
 			]
 		}
 	]

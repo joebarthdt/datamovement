@@ -59,6 +59,21 @@
 		"joescomputerLS_properties_typeProperties_userName": {
 			"value": "COEXIST\\jbarth"
 		},
+		"AzureDataLakeStoreDataDestination1_properties_typeProperties_fileName": {
+			"value": "@dataset().FileName"
+		},
+		"AzureDataLakeStoreDataDestination1_properties_typeProperties_folderPath": {
+			"value": "@dataset().FolderPath"
+		},
+		"AzureDataLakeStoreDataDestination2_properties_typeProperties_fileName": {
+			"value": "@CONCAT('DeltaCopyfromDB_using_ControlTable-', pipeline().RunId, '.txt')"
+		},
+		"AzureDataLakeStoreDataDestination2_properties_typeProperties_folderPath": {
+			"value": "@dataset().FolderPath"
+		},
+		"AzureBlobStorageLabStorage_properties_typeProperties_serviceEndpoint": {
+			"value": "https://drivetimedflabblob.blob.core.windows.net"
+		},
 		"containerUri": {
 			"value": ""
 		},
