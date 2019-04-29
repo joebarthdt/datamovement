@@ -1,0 +1,552 @@
+{
+	"$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+	"contentVersion": "1.0.0.0",
+	"parameters": {
+		"factoryName": {
+			"type": "string",
+			"metadata": "Data Factory Name"
+		},
+		"AzureSqlDatabaseDB": {
+			"type": "string"
+		},
+		"ProcessProd": {
+			"type": "string"
+		}
+	},
+	"variables": {
+		"factoryId": "[concat('Microsoft.DataFactory/factories/', parameters('factoryName'))]"
+	},
+	"resources": [
+		{
+			"name": "[concat(parameters('factoryName'), '/Copy data from on premise SQL Server to SQL Azure Initialload')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"description": "Copy data from on premise SQL Server to SQL Azure.\n\nYou can also go to \"Copy Data Tool\" to get the pipeline for more connectors and scenarios.",
+				"activities": [
+					{
+						"name": "tblProcess sqltoazure",
+						"description": "Copy data from SQL server to SQL Azure",
+						"type": "Copy",
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"typeProperties": {
+							"source": {
+								"type": "SqlSource"
+							},
+							"sink": {
+								"type": "SqlSink",
+								"writeBatchSize": 10000,
+								"preCopyScript": "TRUNCATE TABLE  [stg].[tblProcess]"
+							},
+							"enableStaging": false,
+							"dataIntegrationUnits": 0
+						},
+						"inputs": [
+							{
+								"referenceName": "tblProcess",
+								"type": "DatasetReference"
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "aztblProcess",
+								"type": "DatasetReference"
+							}
+						]
+					},
+					{
+						"name": "tblProcessStatusDimension",
+						"description": "Copy data from SQL server to SQL Azure",
+						"type": "Copy",
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"typeProperties": {
+							"source": {
+								"type": "SqlSource"
+							},
+							"sink": {
+								"type": "SqlSink",
+								"writeBatchSize": 10000,
+								"preCopyScript": "TRUNCATE TABLE  [stg].[tblProcessStatusDimension]"
+							},
+							"enableStaging": false,
+							"dataIntegrationUnits": 0
+						},
+						"inputs": [
+							{
+								"referenceName": "tblProcessStatusDimensionDS",
+								"type": "DatasetReference"
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "tblProcessStatusDimensionDT",
+								"type": "DatasetReference"
+							}
+						]
+					},
+					{
+						"name": "tblProcessTypeDimension",
+						"description": "Copy data from SQL server to SQL Azure",
+						"type": "Copy",
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"typeProperties": {
+							"source": {
+								"type": "SqlSource"
+							},
+							"sink": {
+								"type": "SqlSink",
+								"writeBatchSize": 10000,
+								"preCopyScript": "TRUNCATE TABLE  [stg].[tblProcessTypeDimension]"
+							},
+							"enableStaging": false,
+							"dataIntegrationUnits": 0
+						},
+						"inputs": [
+							{
+								"referenceName": "tblProcessTypeDimensionDS",
+								"type": "DatasetReference"
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "tblProcessTypeDimensionDT",
+								"type": "DatasetReference"
+							}
+						]
+					},
+					{
+						"name": "tblProcessRunHistory",
+						"description": "Copy data from SQL server to SQL Azure",
+						"type": "Copy",
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"typeProperties": {
+							"source": {
+								"type": "SqlSource",
+								"sqlReaderQuery": "SELECT * FROM [dbo].[tblProcessRunHistory] a WITH (NOLOCK)\nWHERE a.RowLoadTimeStamp >= DATEADD(DAY,-1,GETDATE())"
+							},
+							"sink": {
+								"type": "SqlSink",
+								"writeBatchSize": 10000,
+								"preCopyScript": "TRUNCATE TABLE  [stg].[tblProcessRunHistory]"
+							},
+							"enableStaging": false,
+							"dataIntegrationUnits": 0
+						},
+						"inputs": [
+							{
+								"referenceName": "tblProcessRunHistoryDS",
+								"type": "DatasetReference"
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "tblProcessRunHistoryDT",
+								"type": "DatasetReference"
+							}
+						]
+					},
+					{
+						"name": "mergetblProcessRunHistory",
+						"type": "SqlServerStoredProcedure",
+						"dependsOn": [
+							{
+								"activity": "tblProcessRunHistory",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							},
+							{
+								"activity": "scd2DimProcess",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							},
+							{
+								"activity": "scd0DimProcessStatus",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							},
+							{
+								"activity": "scd0DimProcessType",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							},
+							{
+								"activity": "scd0DimProcessGroup",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							},
+							{
+								"activity": "scd0DimWorkflowFolder",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							},
+							{
+								"activity": "scd0DimProcessOwner",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"typeProperties": {
+							"storedProcedureName": "[concat('[', 'dbo].[mergetblProcessRunHistory]')]"
+						},
+						"linkedServiceName": {
+							"referenceName": "[parameters('AzureSqlDatabaseDB')]",
+							"type": "LinkedServiceReference"
+						}
+					},
+					{
+						"name": "scd2DimProcess",
+						"type": "SqlServerStoredProcedure",
+						"dependsOn": [
+							{
+								"activity": "tblProcess sqltoazure",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"typeProperties": {
+							"storedProcedureName": "[concat('[', 'dbo].[scd2DimProcess]')]"
+						},
+						"linkedServiceName": {
+							"referenceName": "[parameters('AzureSqlDatabaseDB')]",
+							"type": "LinkedServiceReference"
+						}
+					},
+					{
+						"name": "scd0DimProcessStatus",
+						"type": "SqlServerStoredProcedure",
+						"dependsOn": [
+							{
+								"activity": "tblProcessStatusDimension",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"typeProperties": {
+							"storedProcedureName": "[concat('[', 'dbo].[scd0DimProcessStatus]')]"
+						},
+						"linkedServiceName": {
+							"referenceName": "[parameters('AzureSqlDatabaseDB')]",
+							"type": "LinkedServiceReference"
+						}
+					},
+					{
+						"name": "scd0DimProcessType",
+						"type": "SqlServerStoredProcedure",
+						"dependsOn": [
+							{
+								"activity": "tblProcessTypeDimension",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"typeProperties": {
+							"storedProcedureName": "[concat('[', 'dbo].[scd0DimProcessType]')]"
+						},
+						"linkedServiceName": {
+							"referenceName": "[parameters('AzureSqlDatabaseDB')]",
+							"type": "LinkedServiceReference"
+						}
+					},
+					{
+						"name": "scd0DimProcessGroup",
+						"type": "SqlServerStoredProcedure",
+						"dependsOn": [
+							{
+								"activity": "tblProcess sqltoazure",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"typeProperties": {
+							"storedProcedureName": "[concat('[', 'dbo].[scd0DimProcessGroup]')]"
+						},
+						"linkedServiceName": {
+							"referenceName": "[parameters('AzureSqlDatabaseDB')]",
+							"type": "LinkedServiceReference"
+						}
+					},
+					{
+						"name": "scd0DimWorkflowFolder",
+						"type": "SqlServerStoredProcedure",
+						"dependsOn": [
+							{
+								"activity": "tblProcess sqltoazure",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"typeProperties": {
+							"storedProcedureName": "[concat('[', 'dbo].[scd0DimWorkflowFolder]')]"
+						},
+						"linkedServiceName": {
+							"referenceName": "[parameters('AzureSqlDatabaseDB')]",
+							"type": "LinkedServiceReference"
+						}
+					},
+					{
+						"name": "scd0DimProcessOwner",
+						"type": "SqlServerStoredProcedure",
+						"dependsOn": [
+							{
+								"activity": "tblProcess sqltoazure",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"typeProperties": {
+							"storedProcedureName": "[concat('[', 'dbo].[scd0DimProcessOwner]')]"
+						},
+						"linkedServiceName": {
+							"referenceName": "[parameters('AzureSqlDatabaseDB')]",
+							"type": "LinkedServiceReference"
+						}
+					}
+				],
+				"folder": {
+					"name": "processControl"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/datasets/tblProcess')]",
+				"[concat(variables('factoryId'), '/datasets/aztblProcess')]",
+				"[concat(variables('factoryId'), '/datasets/tblProcessStatusDimensionDS')]",
+				"[concat(variables('factoryId'), '/datasets/tblProcessStatusDimensionDT')]",
+				"[concat(variables('factoryId'), '/datasets/tblProcessTypeDimensionDS')]",
+				"[concat(variables('factoryId'), '/datasets/tblProcessTypeDimensionDT')]",
+				"[concat(variables('factoryId'), '/datasets/tblProcessRunHistoryDS')]",
+				"[concat(variables('factoryId'), '/datasets/tblProcessRunHistoryDT')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/tblProcess')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"description": "Connect to your data source store.",
+				"linkedServiceName": {
+					"referenceName": "[parameters('ProcessProd')]",
+					"type": "LinkedServiceReference"
+				},
+				"folder": {
+					"name": "process"
+				},
+				"type": "SqlServerTable",
+				"typeProperties": {
+					"tableName": "[concat('[', 'dbo].[tblProcess]')]"
+				}
+			}
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/aztblProcess')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "[parameters('AzureSqlDatabaseDB')]",
+					"type": "LinkedServiceReference"
+				},
+				"folder": {
+					"name": "process"
+				},
+				"type": "AzureSqlTable",
+				"typeProperties": {
+					"tableName": "[concat('[', 'stg].[tblProcess]')]"
+				}
+			}
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/tblProcessStatusDimensionDS')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "[parameters('ProcessProd')]",
+					"type": "LinkedServiceReference"
+				},
+				"folder": {
+					"name": "process"
+				},
+				"type": "SqlServerTable",
+				"typeProperties": {
+					"tableName": "[concat('[', 'dbo].[tblProcessStatusDimension]')]"
+				}
+			}
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/tblProcessStatusDimensionDT')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "[parameters('AzureSqlDatabaseDB')]",
+					"type": "LinkedServiceReference"
+				},
+				"folder": {
+					"name": "process"
+				},
+				"type": "AzureSqlTable",
+				"typeProperties": {
+					"tableName": "[concat('[', 'stg].[tblProcessStatusDimension]')]"
+				}
+			}
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/tblProcessTypeDimensionDS')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "[parameters('ProcessProd')]",
+					"type": "LinkedServiceReference"
+				},
+				"folder": {
+					"name": "process"
+				},
+				"type": "SqlServerTable",
+				"typeProperties": {
+					"tableName": "[concat('[', 'dbo].[tblProcessTypeDimension]')]"
+				}
+			}
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/tblProcessTypeDimensionDT')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "[parameters('AzureSqlDatabaseDB')]",
+					"type": "LinkedServiceReference"
+				},
+				"folder": {
+					"name": "process"
+				},
+				"type": "AzureSqlTable",
+				"typeProperties": {
+					"tableName": "[concat('[', 'stg].[tblProcessTypeDimension]')]"
+				}
+			}
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/tblProcessRunHistoryDS')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "[parameters('ProcessProd')]",
+					"type": "LinkedServiceReference"
+				},
+				"folder": {
+					"name": "process"
+				},
+				"type": "SqlServerTable",
+				"typeProperties": {
+					"tableName": "[concat('[', 'dbo].[tblProcessRunHistory]')]"
+				}
+			}
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/tblProcessRunHistoryDT')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "[parameters('AzureSqlDatabaseDB')]",
+					"type": "LinkedServiceReference"
+				},
+				"folder": {
+					"name": "process"
+				},
+				"type": "AzureSqlTable",
+				"typeProperties": {
+					"tableName": "[concat('[', 'stg].[tblProcessRunHistory]')]"
+				}
+			}
+		}
+	]
+}
