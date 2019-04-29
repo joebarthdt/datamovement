@@ -217,15 +217,6 @@
 					},
 					"AzureDataLakeStoreDataDestination1_properties_typeProperties_folderPath": {
 						"value": "[parameters('AzureDataLakeStoreDataDestination1_properties_typeProperties_folderPath')]"
-					},
-					"AzureDataLakeStoreDataDestination2_properties_typeProperties_fileName": {
-						"value": "[parameters('AzureDataLakeStoreDataDestination2_properties_typeProperties_fileName')]"
-					},
-					"AzureDataLakeStoreDataDestination2_properties_typeProperties_folderPath": {
-						"value": "[parameters('AzureDataLakeStoreDataDestination2_properties_typeProperties_folderPath')]"
-					},
-					"AzureDataLakeStoreFileDynamic_properties_typeProperties_folderPath": {
-						"value": "[parameters('AzureDataLakeStoreFileDynamic_properties_typeProperties_folderPath')]"
 					}
 				}
 			},
@@ -246,6 +237,15 @@
 				"parameters": {
 					"factoryName": {
 						"value": "[parameters('factoryName')]"
+					},
+					"AzureDataLakeStoreDataDestination2_properties_typeProperties_fileName": {
+						"value": "[parameters('AzureDataLakeStoreDataDestination2_properties_typeProperties_fileName')]"
+					},
+					"AzureDataLakeStoreDataDestination2_properties_typeProperties_folderPath": {
+						"value": "[parameters('AzureDataLakeStoreDataDestination2_properties_typeProperties_folderPath')]"
+					},
+					"AzureDataLakeStoreFileDynamic_properties_typeProperties_folderPath": {
+						"value": "[parameters('AzureDataLakeStoreFileDynamic_properties_typeProperties_folderPath')]"
 					}
 				}
 			},
