@@ -1,0 +1,10 @@
+{
+	"name": "AzureBlobStorageLabStorage",
+	"type": "Microsoft.DataFactory/factories/linkedservices",
+	"properties": {
+		"type": "AzureBlobStorage",
+		"typeProperties": {
+			"serviceEndpoint": "https://drivetimedflabblob.blob.core.windows.net"
+		}
+	}
+}
