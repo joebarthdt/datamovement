@@ -5,6 +5,9 @@
 			"referenceName": "joescomputerLS",
 			"type": "LinkedServiceReference"
 		},
+		"folder": {
+			"name": "process"
+		},
 		"type": "SqlServerTable"
 	}
 }

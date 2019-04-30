@@ -21,13 +21,12 @@
 							"referenceName": "AzureBlobStorageLabStorage",
 							"type": "LinkedServiceReference"
 						}
-					},
-					"compute": {
-						"computeType": "General",
-						"coreCount": 8
 					}
 				}
 			}
-		]
+		],
+		"folder": {
+			"name": "Demos"
+		}
 	}
 }

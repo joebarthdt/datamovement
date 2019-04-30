@@ -6,6 +6,9 @@
 			"referenceName": "AzureSqlDatabaseDB",
 			"type": "LinkedServiceReference"
 		},
+		"folder": {
+			"name": "demo examples"
+		},
 		"type": "AzureSqlTable",
 		"typeProperties": {
 			"tableName": "watermarktable"

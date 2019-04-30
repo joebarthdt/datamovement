@@ -1,6 +1,9 @@
 {
 	"name": "MovieDemo1",
 	"properties": {
+		"folder": {
+			"name": "demo examples"
+		},
 		"type": "MappingDataFlow",
 		"typeProperties": {
 			"sources": [

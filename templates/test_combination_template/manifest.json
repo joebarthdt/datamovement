@@ -20,5 +20,8 @@
 			}
 		}
 	},
-	"author": "Joseph.Barth@drivetime.com"
+	"author": "Joseph.Barth@drivetime.com",
+	"folder": {
+		"name": "misc"
+	}
 }

@@ -1,6 +1,9 @@
 {
 	"name": "DimEmployeeLoader21",
 	"properties": {
+		"folder": {
+			"name": "demo examples"
+		},
 		"type": "MappingDataFlow",
 		"typeProperties": {
 			"sources": [

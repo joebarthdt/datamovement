@@ -1,6 +1,9 @@
 {
 	"name": "TaxiDemo1",
 	"properties": {
+		"folder": {
+			"name": "demo examples"
+		},
 		"type": "MappingDataFlow",
 		"typeProperties": {
 			"sources": [

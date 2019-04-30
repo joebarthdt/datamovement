@@ -1,6 +1,9 @@
 {
 	"name": "Trasformation1",
 	"properties": {
+		"folder": {
+			"name": "demo examples"
+		},
 		"type": "MappingDataFlow",
 		"typeProperties": {
 			"sources": [
@@ -10,7 +13,7 @@
 						"type": "DatasetReference"
 					},
 					"name": "source1",
-					"script": "source(output(\n\t\t\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\trowUrlColumn: 'filename') ~> source1"
+					"script": "source(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\trowUrlColumn: 'filename') ~> source1"
 				}
 			],
 			"sinks": [

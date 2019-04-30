@@ -2,6 +2,9 @@
 	"name": "Currency Converter1",
 	"properties": {
 		"description": "Sample demo data flow to convert currencies",
+		"folder": {
+			"name": "demo examples"
+		},
 		"type": "MappingDataFlow",
 		"typeProperties": {
 			"sources": [

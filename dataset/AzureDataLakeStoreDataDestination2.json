@@ -11,6 +11,9 @@
 				"type": "String"
 			}
 		},
+		"folder": {
+			"name": "demo examples"
+		},
 		"type": "AzureDataLakeStoreFile",
 		"typeProperties": {
 			"format": {

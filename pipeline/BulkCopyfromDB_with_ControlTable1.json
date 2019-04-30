@@ -122,6 +122,9 @@
 			"Data_Destination_Folder_Path": {
 				"type": "String"
 			}
+		},
+		"folder": {
+			"name": "Demos"
 		}
 	}
 }

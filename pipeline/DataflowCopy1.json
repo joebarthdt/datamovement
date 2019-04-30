@@ -58,14 +58,12 @@
 					"dataflow": {
 						"referenceName": "Trasformation1",
 						"type": "DataFlowReference"
-					},
-					"compute": {
-						"computeType": "General",
-						"coreCount": 8,
-						"dataTransformationUnits": 4
 					}
 				}
 			}
-		]
+		],
+		"folder": {
+			"name": "Demos"
+		}
 	}
 }
